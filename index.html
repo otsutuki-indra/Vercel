@@ -3,121 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X.CROP | Nexus Dashboard</title>
+    <title>X.CROP | Secure Nexus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #020617; font-family: 'Inter', sans-serif; }
-        .metric-card { background: #0A1128; border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 2.5rem; transition: all 0.4s ease; }
-        .metric-card:hover { transform: translateY(-8px); border-color: rgba(37, 99, 235, 0.2); }
-        .nav-link { padding: 1rem 1.5rem; border-radius: 1rem; color: #64748b; font-size: 13px; font-weight: 600; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+        body { background-color: #020617; font-family: 'Plus Jakarta Sans', sans-serif; color: #94a3b8; }
+        .auth-card { background: #0A1128; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2rem; }
+        .hidden { display: none; }
+        input { background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; }
+        .nav-link { padding: 0.75rem 1.25rem; border-radius: 0.75rem; transition: 0.3s; font-size: 13px; font-weight: 600; }
+        .nav-link.active { background: #2563eb; color: white; }
     </style>
 </head>
-<body class="text-slate-400 antialiased overflow-hidden">
+<body class="antialiased">
 
-    <div class="flex h-screen">
+    <div id="auth-screen" class="min-h-screen flex items-center justify-center p-6">
+        <div class="auth-card w-full max-w-md p-10 shadow-2xl">
+            <div class="text-3xl font-black text-white italic mb-2 text-center">X.CROP</div>
+            <p class="text-center text-xs uppercase tracking-[0.3em] text-slate-500 mb-10">Access_Terminal_v2</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest ml-1">Work_Email</label>
+                    <input type="email" id="email" class="w-full mt-2 p-4 rounded-xl focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest ml-1">Access_Key</label>
+                    <input type="password" id="password" class="w-full mt-2 p-4 rounded-xl focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button onclick="handleAuth('login')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-blue-900/20">LOGIN</button>
+                    <button onclick="handleAuth('signup')" class="flex-1 bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition">REGISTER</button>
+                </div>
+            </div>
+            <p id="auth-msg" class="mt-6 text-center text-xs font-bold text-blue-400"></p>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="hidden flex h-screen">
         <aside class="w-72 bg-[#0A1128] border-r border-white/5 p-8 flex flex-col">
             <div class="text-2xl font-black text-white italic mb-16">X.CROP</div>
             <nav class="flex-grow space-y-2">
-                <a href="#" class="nav-link active flex items-center">Console_Home</a>
-                <a href="#" class="nav-link flex items-center">Revenue_Nodes</a>
-                <a href="#" class="nav-link flex items-center">Security_Vault</a>
-                
-                <div class="pt-10 space-y-2">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-600 mb-4 ml-4">COMMUNITY</p>
-                    <a href="https://discord.gg" target="_blank" class="nav-link block opacity-60 hover:opacity-100">Discord_Relay</a>
-                    <a href="https://x.com" target="_blank" class="nav-link block opacity-60 hover:opacity-100">X_Network</a>
-                </div>
+                <a href="#" class="nav-link active block">Console_Home</a>
+                <a href="#" class="nav-link block">Revenue_Nodes</a>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-600 pt-10 mb-4 ml-4">Connected_User</p>
+                <div id="display-email" class="text-[11px] font-bold text-blue-400 ml-4 truncate italic">user@x-crop.io</div>
             </nav>
-            <button onclick="location.reload()" class="mt-auto p-4 text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-500/5 border border-red-500/10 rounded-2xl hover:bg-red-500/10 transition">Terminate_Session</button>
+            <button onclick="handleLogout()" class="mt-auto p-4 text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-500/5 border border-red-500/10 rounded-2xl hover:bg-red-500/10 transition">Terminate_Session</button>
         </aside>
 
         <main class="flex-grow p-12 overflow-y-auto">
             <header class="mb-16">
                 <h1 class="text-4xl font-black text-white tracking-tighter italic">NEXUS_CORE</h1>
-                <p class="text-slate-500 text-sm mt-2">Global systems synchronized. Last sync: <span id="sync-time">Just Now</span></p>
+                <p class="text-slate-500 text-sm mt-2">Status: <span class="text-emerald-500 font-bold uppercase tracking-widest text-[10px]">● Authorized</span></p>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="metric-card p-10">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6 border-l-2 border-blue-600 pl-4">Gross_Liquidity</p>
-                    <div class="text-5xl font-black text-white italic tracking-tighter">$42.8M</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-[#0A1128] p-10 rounded-[2.5rem] border border-white/5">
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Liquidity</p>
+                    <div class="text-4xl font-black text-white italic">$42.8M</div>
                 </div>
-                <div class="metric-card p-10">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6 border-l-2 border-slate-700 pl-4">Active_Nodes</p>
-                    <div class="text-5xl font-black text-white italic tracking-tighter">1,402</div>
+                <div class="bg-[#0A1128] p-10 rounded-[2.5rem] border border-white/5">
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Active_Nodes</p>
+                    <div class="text-4xl font-black text-white italic">1,402</div>
                 </div>
-                <div class="metric-card p-10">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6 border-l-2 border-blue-500 pl-4">System_Health</p>
-                    <div class="text-5xl font-black text-blue-500 italic tracking-tighter">99.9%</div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-[#0A1128] rounded-[40px] p-10 border border-white/5">
-                    <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-8">Revenue_Projection_7D</h3>
-                    <canvas id="revenueChart" height="200"></canvas>
-                </div>
-
-                <div class="bg-[#0A1128] rounded-[40px] p-10 border border-white/5">
-                    <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-8">Global_Relay_Nodes</h3>
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="text-xs font-bold text-white italic">TOKYO_01</span>
-                            <span class="text-[9px] font-black text-emerald-500 px-3 py-1 bg-emerald-500/10 rounded-full">ONLINE</span>
-                        </div>
-                        <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="text-xs font-bold text-white italic">LONDON_04</span>
-                            <span class="text-[9px] font-black text-emerald-500 px-3 py-1 bg-emerald-500/10 rounded-full">ONLINE</span>
-                        </div>
-                        <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="text-xs font-bold text-white italic">DHAKA_09</span>
-                            <span class="text-[9px] font-black text-blue-400 px-3 py-1 bg-blue-500/10 rounded-full animate-pulse">SYNCING</span>
-                        </div>
-                        <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 opacity-50">
-                            <span class="text-xs font-bold text-white italic">NYC_CORE</span>
-                            <span class="text-[9px] font-black text-red-500 px-3 py-1 bg-red-500/10 rounded-full">OFFLINE</span>
-                        </div>
-                    </div>
+                <div class="bg-[#0A1128] p-10 rounded-[2.5rem] border border-white/5">
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Security</p>
+                    <div class="text-4xl font-black text-blue-500 italic">Level_09</div>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // REVENUE CHART LOGIC
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-                datasets: [{
-                    label: 'Revenue Growth',
-                    data: [12, 19, 15, 25, 22, 30, 42],
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                    borderWidth: 4,
-                    tension: 0.4,
-                    fill: true,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { display: false }, border: { display: false } },
-                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, border: { display: false } }
-                }
-            }
-        });
+        // SUPABASE CONFIG
+        const SB_URL = "https://clyqcgvwgyhjluqdlhqo.supabase.co";
+        const SB_KEY = "sb_publishable_BX5oJM9oj3R-oQSvKlsvGQ_-Zhnml_7"; // আপনার দেওয়া কি ব্যবহার করলাম
+        const supabase = window.supabase.createClient(SB_URL, SB_KEY);
 
-        // TIME SYNC LOGIC
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('sync-time').innerText = now.toLocaleTimeString();
-        }, 1000);
+        // AUTH LOGIC
+        async function handleAuth(type) {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('auth-msg');
+
+            if(!email || !password) { msg.innerText = "Error: Input required"; return; }
+            msg.innerText = "Processing_Request...";
+
+            if(type === 'signup') {
+                const { data, error } = await supabase.auth.signUp({ email, password });
+                if(error) msg.innerText = "Error: " + error.message;
+                else msg.innerText = "Success! Now Login.";
+            } else {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if(error) msg.innerText = "Error: " + error.message;
+                else checkUser();
+            }
+        }
+
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            location.reload();
+        }
+
+        async function checkUser() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+                document.getElementById('display-email').innerText = user.email;
+            } else {
+                document.getElementById('auth-screen').classList.remove('hidden');
+                document.getElementById('dashboard-screen').classList.add('hidden');
+            }
+        }
+
+        checkUser();
     </script>
 </body>
 </html>
