@@ -3,155 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X.CROP | Neural Interface</title>
+    <title>X.CROP | Nexus Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #3b82f6; --bg: #020617; }
-        body { background-color: var(--bg); font-family: 'Space Grotesk', sans-serif; cursor: none; overflow: hidden; color: #94a3b8; }
+        :root { --accent: #3b82f6; --bg: #020617; }
+        body { background-color: var(--bg); font-family: 'Space Grotesk', sans-serif; color: #94a3b8; overflow: hidden; }
         
-        /* Geometry Cursor */
-        #cursor { width: 24px; height: 24px; border: 1px solid var(--primary); position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease-out; transform: rotate(45deg); }
-        #cursor-dot { width: 4px; height: 4px; background: white; position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; }
+        /* Geometry Cursor & Background */
+        #canvas-bg { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
+        #cursor-box { width: 30px; height: 30px; border: 1px solid var(--accent); position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s; transform: rotate(45deg); }
 
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 28px; }
+        /* UI Styling */
+        .nexus-card { background: rgba(10, 17, 40, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 30px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
         .hidden { display: none !important; }
         
-        input { background: rgba(255, 255, 255, 0.04) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; }
-        input:focus { border-color: var(--primary) !important; outline: none; box-shadow: 0 0 15px rgba(59, 130, 246, 0.1); }
+        input { background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; transition: 0.3s; }
+        input:focus { border-color: var(--accent) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); outline: none; }
 
-        .neon-btn { transition: 0.4s; position: relative; overflow: hidden; }
-        .neon-btn:hover { background: var(--primary); color: white; box-shadow: 0 0 25px rgba(59, 130, 246, 0.4); transform: translateY(-2px); }
-
-        .grid-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -1; }
+        .btn-glow { background: var(--accent); color: white; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 10px; transition: 0.4s; }
+        .btn-glow:hover { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); transform: translateY(-2px); }
+        
+        .otp-input { letter-spacing: 1.5rem; text-indent: 1.5rem; font-size: 2rem; font-weight: 900; color: var(--accent) !important; }
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-dot"></div>
-    <div class="grid-bg"></div>
+    <div id="cursor-box"></div>
+    <canvas id="canvas-bg"></canvas>
 
     <div id="auth-screen" class="min-h-screen flex items-center justify-center p-6">
-        <div class="glass w-full max-w-md p-12 shadow-2xl relative">
-            <div class="text-4xl font-bold text-white tracking-tighter mb-1 text-center italic">X<span class="text-blue-500">.</span>CROP</div>
-            <p class="text-center text-[9px] uppercase tracking-[0.6em] text-slate-600 mb-12 font-bold italic">Neural_Link_Established</p>
+        <div class="nexus-card w-full max-w-md p-12 relative overflow-hidden">
+            <div class="text-5xl font-black text-white italic mb-1 text-center tracking-tighter">X<span class="text-blue-500">.</span>CROP</div>
+            <p id="system-status" class="text-center text-[8px] uppercase tracking-[0.7em] text-slate-500 mb-12 font-bold">Waiting_For_Handshake</p>
             
-            <div class="space-y-6">
-                <div>
-                    <label class="text-[9px] font-bold uppercase tracking-widest ml-1 text-slate-500">Node_Identity</label>
-                    <input type="email" id="email" placeholder="EMAIL_ADDR" class="w-full mt-2 p-4 rounded-xl text-xs font-bold">
-                </div>
-                <div>
-                    <label class="text-[9px] font-bold uppercase tracking-widest ml-1 text-slate-500">Security_Phrase</label>
-                    <input type="password" id="password" placeholder="••••••••" class="w-full mt-2 p-4 rounded-xl text-xs font-bold">
-                </div>
-                
-                <div class="flex flex-col gap-3 pt-4">
-                    <button onclick="handleAuth('login')" class="neon-btn w-full bg-blue-600 text-white font-black py-4 rounded-xl tracking-widest text-[10px]">INITIALIZE_LOGIN</button>
-                    <button onclick="handleAuth('signup')" class="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/5 transition text-[10px] tracking-widest">REGISTER_NODE</button>
+            <div id="entry-form" class="space-y-5">
+                <input type="email" id="email" placeholder="NODE_ID@XCROP.IO" class="w-full p-5 rounded-2xl text-xs font-bold uppercase">
+                <input type="password" id="password" placeholder="SECURITY_KEY" class="w-full p-5 rounded-2xl text-xs font-bold uppercase">
+                <div class="flex gap-3 pt-4">
+                    <button onclick="initAuth('login')" class="btn-glow flex-1 py-5 rounded-2xl">ACCESS</button>
+                    <button onclick="initAuth('signup')" class="flex-1 bg-white/5 border border-white/5 py-5 rounded-2xl text-[10px] font-bold hover:bg-white/10 transition">RECRUIT</button>
                 </div>
             </div>
-            <p id="auth-msg" class="mt-8 text-center text-[10px] font-bold text-blue-400 uppercase tracking-widest h-4"></p>
+
+            <div id="otp-form" class="hidden space-y-8">
+                <div class="text-center">
+                    <p class="text-blue-400 text-[10px] font-bold tracking-widest animate-pulse">>> VERIFICATION_CODE_SENT <<</p>
+                </div>
+                <input type="text" id="otp-code" maxlength="6" class="otp-input w-full p-6 rounded-2xl border-blue-500/30 text-center">
+                <button onclick="verifyNode()" class="btn-glow w-full py-5 rounded-2xl">VERIFY_NODE</button>
+                <button onclick="location.reload()" class="w-full text-[9px] uppercase tracking-widest text-slate-600 hover:text-white transition">Cancel_Request</button>
+            </div>
+
+            <p id="terminal-msg" class="mt-8 text-center text-[9px] font-bold text-blue-500 uppercase tracking-widest h-4"></p>
         </div>
     </div>
 
-    <div id="dashboard-screen" class="hidden flex h-screen">
-        <aside class="w-80 bg-[#010409] border-r border-white/5 p-10 flex flex-col">
+    <div id="main-interface" class="hidden flex h-screen">
+        <aside class="w-80 bg-[#010409]/80 backdrop-blur-md border-r border-white/5 p-10 flex flex-col">
             <div class="text-2xl font-black text-white italic mb-20 tracking-tighter">X.CROP</div>
-            <nav class="flex-grow space-y-4">
-                <div class="p-4 glass border-blue-500/30 text-white text-[10px] font-bold tracking-widest">CORE_DASHBOARD</div>
-                <div class="p-4 hover:bg-white/5 rounded-2xl transition text-[10px] font-bold tracking-widest">FLUX_REVENUE</div>
-                <div class="p-4 hover:bg-white/5 rounded-2xl transition text-[10px] font-bold tracking-widest">SECURITY_LOGS</div>
+            <nav class="flex-grow space-y-6">
+                <div class="p-4 bg-blue-600/10 border border-blue-500/20 rounded-2xl text-white text-[10px] font-bold tracking-widest">NEXUS_OVERVIEW</div>
+                <div class="p-4 hover:bg-white/5 rounded-2xl transition text-[10px] font-bold tracking-widest opacity-40">REVENUE_NODES</div>
+                <div class="p-4 hover:bg-white/5 rounded-2xl transition text-[10px] font-bold tracking-widest opacity-40">SECURITY_FLUX</div>
             </nav>
             <div class="mt-auto border-t border-white/5 pt-8">
-                <p class="text-[8px] uppercase tracking-widest text-slate-600 mb-2 font-black">Authorized_Node</p>
-                <div id="display-email" class="text-[11px] font-bold text-blue-400 truncate italic mb-6">syncing...</div>
-                <button onclick="handleLogout()" class="w-full p-4 text-[9px] font-black text-red-500 bg-red-500/5 border border-red-500/10 rounded-2xl hover:bg-red-500/10 transition tracking-widest">TERMINATE_SESSION</button>
+                <p id="user-node" class="text-[10px] font-bold text-blue-400 truncate italic mb-6">SYNCING_USER...</p>
+                <button onclick="terminateSession()" class="w-full p-4 text-[9px] font-black text-red-500 bg-red-500/5 border border-red-500/10 rounded-2xl hover:bg-red-500/10 transition">TERMINATE_NODE</button>
             </div>
         </aside>
 
-        <main class="flex-grow p-16 overflow-y-auto">
-            <header class="mb-20 flex justify-between items-center">
-                <div>
-                    <h1 class="text-6xl font-black text-white italic tracking-tighter">NEXUS_01</h1>
-                    <p class="text-slate-600 text-[10px] font-bold uppercase tracking-[0.4em] mt-4 italic">System_Pulse: <span class="text-emerald-500">Active</span></p>
-                </div>
-                <div class="glass px-8 py-4 text-[10px] font-bold text-blue-400 border-blue-500/20 tracking-widest uppercase">Stable_Build_v2.6</div>
-            </header>
+        <main class="flex-grow p-20 overflow-y-auto">
+            <h1 class="text-7xl font-black text-white italic tracking-tighter mb-4">DASHBOARD_01</h1>
+            <div class="flex items-center gap-3 mb-20">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">System_Status: Stable_Link</p>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="glass p-12 relative group">
-                    <p class="text-[9px] font-black text-slate-600 uppercase tracking-widest mb-6">Liquidity_Pool</p>
-                    <div class="text-7xl font-black text-white italic tracking-tighter">$42.8M</div>
-                    <div class="mt-8 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                        <div class="h-full bg-blue-600 w-3/4"></div>
-                    </div>
+            <div class="grid grid-cols-2 gap-12">
+                <div class="nexus-card p-14 relative overflow-hidden group">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition"></div>
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Total_Liquidity_Flux</p>
+                    <div class="text-7xl font-black text-white italic tracking-tighter leading-none">$42.8M</div>
                 </div>
-                <div class="glass p-12 border-blue-500/20">
-                    <p class="text-[9px] font-black text-slate-600 uppercase tracking-widest mb-6">Neural_Nodes_Active</p>
-                    <div class="text-7xl font-black text-white italic tracking-tighter">1,402</div>
-                    <div class="mt-8 flex gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span class="text-[9px] font-bold text-emerald-500 uppercase tracking-widest">Sync_Stable</span>
-                    </div>
+                <div class="nexus-card p-14 border-blue-500/20">
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Connected_Neural_Nodes</p>
+                    <div class="text-7xl font-black text-white italic tracking-tighter leading-none">1,402</div>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // GEOMETRY CURSOR
-        const cursor = document.getElementById('cursor');
-        const dot = document.getElementById('cursor-dot');
+        // --- GEOMETRY BACKGROUND ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.onresize = initCanvas;
+        initCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if(this.x > canvas.width) this.x = 0;
+                if(this.x < 0) this.x = canvas.width;
+                if(this.y > canvas.height) this.y = 0;
+                if(this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for(let i=0; i<80; i++) particles.push(new Particle());
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor-box');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 12 + 'px';
-            cursor.style.top = e.clientY - 12 + 'px';
-            dot.style.left = e.clientX - 2 + 'px';
-            dot.style.top = e.clientY - 2 + 'px';
-            cursor.style.transform = `rotate(${e.clientX / 4}deg) scale(${1 + Math.sin(e.clientY/100)*0.1})`;
+            cursor.style.left = e.clientX - 15 + 'px';
+            cursor.style.top = e.clientY - 15 + 'px';
+            cursor.style.transform = `rotate(${e.clientX / 4}deg)`;
         });
 
-        // SUPABASE SYNC
+        // --- SUPABASE ENGINE ---
         const SB_URL = "https://clyqcgvwgyhjluqdlhqo.supabase.co";
         const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseXFjZ3Z3Z3loamx1cWRsaHFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNzg1MTAsImV4cCI6MjA5MDc1NDUxMH0.AV70e71J1YMF5j_Fb7OVpuxVuKqZtv9TkJGqh01DGoA";
-        const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+        const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        async function handleAuth(type) {
-            const email = document.getElementById('email').value;
+        let tempEmail = "";
+
+        async function initAuth(type) {
+            tempEmail = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const msg = document.getElementById('auth-msg');
+            const msg = document.getElementById('terminal-msg');
 
-            if(!email || !password) { msg.innerText = "!! INPUT_REQUIRED !!"; return; }
-            msg.innerText = ">> CONNECTING_TO_NEXUS...";
+            if(!tempEmail || !password) { msg.innerText = "!! INPUT_REQUIRED !!"; return; }
+            msg.innerText = ">> SYNCING_IDENTITY...";
 
             if(type === 'signup') {
-                const { error } = await supabaseClient.auth.signUp({ email, password });
-                if(error) msg.innerText = "!! " + error.message.toUpperCase() + " !!";
-                else msg.innerText = ">> VERIFICATION_LINK_SENT_TO_INBOX";
+                const { error } = await sb.auth.signUp({ email: tempEmail, password });
+                if(error) msg.innerText = "!! " + error.message.toUpperCase();
+                else {
+                    document.getElementById('entry-form').classList.add('hidden');
+                    document.getElementById('otp-form').classList.remove('hidden');
+                    document.getElementById('system-status').innerText = "Sync_Required";
+                    msg.innerText = "";
+                }
             } else {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if(error) msg.innerText = "!! " + error.message.toUpperCase() + " !!";
-                else checkUser();
+                const { error } = await sb.auth.signInWithPassword({ email: tempEmail, password });
+                if(error) msg.innerText = "!! " + error.message.toUpperCase();
+                else location.reload();
             }
         }
 
-        async function handleLogout() {
-            await supabaseClient.auth.signOut();
-            location.reload();
+        async function verifyNode() {
+            const token = document.getElementById('otp-code').value;
+            const msg = document.getElementById('terminal-msg');
+            msg.innerText = ">> VALIDATING_CODE...";
+
+            const { error } = await sb.auth.verifyOtp({ email: tempEmail, token, type: 'signup' });
+            if(error) msg.innerText = "!! INVALID_CODE !!";
+            else location.reload();
         }
 
-        async function checkUser() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
+        async function terminateSession() { await sb.auth.signOut(); location.reload(); }
+
+        async function checkSession() {
+            const { data: { user } } = await sb.auth.getUser();
             if (user) {
                 document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('dashboard-screen').classList.remove('hidden');
-                document.getElementById('display-email').innerText = user.email;
+                document.getElementById('main-interface').classList.remove('hidden');
+                document.getElementById('user-node').innerText = user.email.toUpperCase();
             }
         }
-
-        checkUser();
+        checkSession();
     </script>
 </body>
 </html>
