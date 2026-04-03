@@ -3,101 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X.CROP | Secure Nexus</title>
+    <title>X.CROP | Neural Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #020617; font-family: 'Plus Jakarta Sans', sans-serif; color: #94a3b8; }
-        .auth-card { background: #0A1128; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2rem; }
-        .hidden { display: none; }
-        input { background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; }
-        .nav-link { padding: 0.75rem 1.25rem; border-radius: 0.75rem; transition: 0.3s; font-size: 13px; font-weight: 600; }
-        .nav-link.active { background: #2563eb; color: white; }
+        :root { --primary: #3b82f6; --bg: #020617; }
+        body { background-color: var(--bg); font-family: 'Space Grotesk', sans-serif; cursor: none; overflow-x: hidden; }
+        
+        /* Geometry Cursor */
+        #cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 4px; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s ease; transform: rotate(45deg); }
+        #cursor-dot { width: 4px; height: 4px; background: white; position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; }
+
+        /* UI Styling */
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; }
+        .hidden { display: none !important; }
+        
+        input { background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; transition: 0.3s; }
+        input:focus { border-color: var(--primary) !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); outline: none; }
+
+        .neon-btn { position: relative; overflow: hidden; transition: 0.4s; }
+        .neon-btn:hover { background: var(--primary); color: white; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); transform: translateY(-2px); }
+
+        /* Background Animation */
+        .grid-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px); background-size: 50px 50px; z-index: -1; }
     </style>
 </head>
-<body class="antialiased">
+<body class="text-slate-300">
+
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+    <div class="grid-bg"></div>
 
     <div id="auth-screen" class="min-h-screen flex items-center justify-center p-6">
-        <div class="auth-card w-full max-w-md p-10 shadow-2xl">
-            <div class="text-3xl font-black text-white italic mb-2 text-center">X.CROP</div>
-            <p class="text-center text-xs uppercase tracking-[0.3em] text-slate-500 mb-10">Access_Terminal_v2</p>
+        <div class="glass w-full max-w-md p-10 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[10px] font-bold uppercase tracking-widest ml-1">Work_Email</label>
-                    <input type="email" id="email" class="w-full mt-2 p-4 rounded-xl focus:outline-none focus:border-blue-500 transition">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold uppercase tracking-widest ml-1">Access_Key</label>
-                    <input type="password" id="password" class="w-full mt-2 p-4 rounded-xl focus:outline-none focus:border-blue-500 transition">
-                </div>
-                <div class="flex gap-4 pt-4">
-                    <button onclick="handleAuth('login')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-blue-900/20">LOGIN</button>
-                    <button onclick="handleAuth('signup')" class="flex-1 bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition">REGISTER</button>
+            <div class="text-4xl font-bold text-white tracking-tighter mb-2 text-center italic">X<span class="text-blue-500">.</span>CROP</div>
+            <p class="text-center text-[10px] uppercase tracking-[0.5em] text-slate-500 mb-12 font-bold">Neural_Access_Point</p>
+            
+            <div class="space-y-6">
+                <input type="email" id="email" placeholder="NODE_ID (EMAIL)" class="w-full p-4 rounded-xl text-sm font-medium">
+                <input type="password" id="password" placeholder="ACCESS_KEY" class="w-full p-4 rounded-xl text-sm font-medium">
+                
+                <div class="flex flex-col gap-3">
+                    <button onclick="handleAuth('login')" class="neon-btn w-full bg-blue-600 text-white font-black py-4 rounded-xl tracking-widest text-xs">INITIALIZE_LOGIN</button>
+                    <button onclick="handleAuth('signup')" class="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/05 transition text-xs tracking-widest">REGISTER_NEW_NODE</button>
                 </div>
             </div>
-            <p id="auth-msg" class="mt-6 text-center text-xs font-bold text-blue-400"></p>
+            <p id="auth-msg" class="mt-8 text-center text-[10px] font-bold text-blue-400 uppercase tracking-widest animate-pulse"></p>
         </div>
     </div>
 
     <div id="dashboard-screen" class="hidden flex h-screen">
-        <aside class="w-72 bg-[#0A1128] border-r border-white/5 p-8 flex flex-col">
-            <div class="text-2xl font-black text-white italic mb-16">X.CROP</div>
-            <nav class="flex-grow space-y-2">
-                <a href="#" class="nav-link active block">Console_Home</a>
-                <a href="#" class="nav-link block">Revenue_Nodes</a>
-                <p class="text-[10px] font-black uppercase tracking-widest text-slate-600 pt-10 mb-4 ml-4">Connected_User</p>
-                <div id="display-email" class="text-[11px] font-bold text-blue-400 ml-4 truncate italic">user@x-crop.io</div>
+        <aside class="w-80 bg-[#010409] border-r border-white/5 p-8 flex flex-col">
+            <div class="text-2xl font-black text-white italic mb-20 tracking-tighter">X.CROP</div>
+            <nav class="flex-grow space-y-4">
+                <div class="p-4 glass border-blue-500/30 text-white text-xs font-bold tracking-widest">CONSOLE_ROOT</div>
+                <div class="p-4 hover:bg-white/5 rounded-xl transition text-xs font-bold tracking-widest">REVENUE_FLUX</div>
+                <div class="p-4 hover:bg-white/5 rounded-xl transition text-xs font-bold tracking-widest">NODE_SECURITY</div>
             </nav>
-            <button onclick="handleLogout()" class="mt-auto p-4 text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-500/5 border border-red-500/10 rounded-2xl hover:bg-red-500/10 transition">Terminate_Session</button>
+            <div class="mt-auto border-t border-white/5 pt-6">
+                <p class="text-[9px] uppercase tracking-widest text-slate-500 mb-2">Authenticated_As</p>
+                <div id="display-email" class="text-xs font-bold text-blue-400 truncate italic mb-6">loading...</div>
+                <button onclick="handleLogout()" class="w-full p-3 text-[10px] font-black text-red-500 bg-red-500/5 border border-red-500/10 rounded-xl hover:bg-red-500/10 transition">DISCONNECT</button>
+            </div>
         </aside>
 
-        <main class="flex-grow p-12 overflow-y-auto">
-            <header class="mb-16">
-                <h1 class="text-4xl font-black text-white tracking-tighter italic">NEXUS_CORE</h1>
-                <p class="text-slate-500 text-sm mt-2">Status: <span class="text-emerald-500 font-bold uppercase tracking-widest text-[10px]">● Authorized</span></p>
+        <main class="flex-grow p-16 relative">
+            <header class="mb-20 flex justify-between items-start">
+                <div>
+                    <h1 class="text-5xl font-black text-white italic tracking-tighter">DASHBOARD_01</h1>
+                    <p class="text-slate-500 text-xs font-bold uppercase tracking-[0.3em] mt-4">System_Status: <span class="text-emerald-500">Nominal</span></p>
+                </div>
+                <div class="glass px-6 py-3 text-[10px] font-bold text-blue-400 border-blue-500/20">v2.0.4_STABLE</div>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-[#0A1128] p-10 rounded-[2.5rem] border border-white/5">
-                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Liquidity</p>
-                    <div class="text-4xl font-black text-white italic">$42.8M</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="glass p-12 relative group overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition"></div>
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Total_Revenue_Flux</p>
+                    <div class="text-6xl font-black text-white italic tracking-tighter">$42.8M</div>
                 </div>
-                <div class="bg-[#0A1128] p-10 rounded-[2.5rem] border border-white/5">
-                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Active_Nodes</p>
-                    <div class="text-4xl font-black text-white italic">1,402</div>
-                </div>
-                <div class="bg-[#0A1128] p-10 rounded-[2.5rem] border border-white/5">
-                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Security</p>
-                    <div class="text-4xl font-black text-blue-500 italic">Level_09</div>
+                <div class="glass p-12 border-blue-500/20">
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Active_Neural_Nodes</p>
+                    <div class="text-6xl font-black text-white italic tracking-tighter">1,402</div>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // SUPABASE CONFIG
+        // CURSOR LOGIC
+        const cursor = document.getElementById('cursor');
+        const dot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            dot.style.left = e.clientX - 2 + 'px';
+            dot.style.top = e.clientY - 2 + 'px';
+            cursor.style.transform = `rotate(${e.clientX / 5}deg)`;
+        });
+
+        // SUPABASE CONFIG (FIXED)
         const SB_URL = "https://clyqcgvwgyhjluqdlhqo.supabase.co";
-        const SB_KEY = "sb_publishable_BX5oJM9oj3R-oQSvKlsvGQ_-Zhnml_7"; // আপনার দেওয়া কি ব্যবহার করলাম
+        const SB_KEY = "sb_publishable_BX5oJM9oj3R-oQSvKlsvGQ_-Zhnml_7"; // Ensure this is the "anon public" key from settings
         const supabase = window.supabase.createClient(SB_URL, SB_KEY);
 
-        // AUTH LOGIC
         async function handleAuth(type) {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const msg = document.getElementById('auth-msg');
 
-            if(!email || !password) { msg.innerText = "Error: Input required"; return; }
-            msg.innerText = "Processing_Request...";
+            if(!email || !password) { msg.innerText = "!! ERROR: INPUT_REQUIRED !!"; return; }
+            msg.innerText = ">> SYNCING_WITH_SUPABASE...";
 
             if(type === 'signup') {
-                const { data, error } = await supabase.auth.signUp({ email, password });
-                if(error) msg.innerText = "Error: " + error.message;
-                else msg.innerText = "Success! Now Login.";
+                const { error } = await supabase.auth.signUp({ email, password });
+                if(error) msg.innerText = "!! " + error.message.toUpperCase() + " !!";
+                else msg.innerText = ">> VERIFICATION_EMAIL_SENT. CHECK_INBOX.";
             } else {
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                if(error) msg.innerText = "Error: " + error.message;
+                if(error) msg.innerText = "!! " + error.message.toUpperCase() + " !!";
                 else checkUser();
             }
         }
