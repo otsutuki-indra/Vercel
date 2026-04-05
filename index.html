@@ -3,120 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X.CROP | User Console</title>
+    <title>X.CROP | Stable Console</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .sidebar { background: #0f172a; transition: 0.3s; }
-        .nav-link { color: #94a3b8; transition: 0.2s; display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
+        .sidebar { background: #0f172a; width: 260px; position: fixed; height: 100vh; left: 0; top: 0; z-index: 50; }
+        .nav-link { color: #94a3b8; transition: 0.2s; display: flex; align-items: center; padding: 0.8rem 1rem; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; text-decoration: none; }
         .nav-link:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
         .active-nav { background: #3b82f6; color: #fff !important; }
-        .stat-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .hidden { display: none !important; }
+        .main-wrapper { margin-left: 260px; padding: 40px; min-height: 100vh; }
+        .stat-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        /* Anti-Glitch: Hide everything by default */
+        #dashboard-container { display: none; }
     </style>
 </head>
-<body id="dashboard-body" class="hidden">
+<body>
 
-    <div class="flex min-h-screen">
-        <aside class="sidebar w-64 fixed inset-y-0 left-0 p-6 flex flex-col">
-            <div class="flex items-center gap-3 px-2 mb-10">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white italic">X</div>
-                <span class="text-white font-extrabold tracking-tighter text-xl italic">X.CROP</span>
-            </div>
+    <div id="dashboard-container">
+        <div class="flex">
+            <aside class="sidebar p-6 flex flex-col">
+                <div class="flex items-center gap-3 px-2 mb-10">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white italic">X</div>
+                    <span class="text-white font-extrabold tracking-tighter text-xl italic">X.CROP</span>
+                </div>
 
-            <nav class="flex-grow space-y-1">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-4">Main Menu</p>
-                <a href="/" class="nav-link active-nav">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                    Dashboard
-                </a>
-                <a href="/iphone" class="nav-link">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    iPhone Module
-                </a>
-                <a href="/mac" class="nav-link">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    Mac Studio
-                </a>
-            </nav>
+                <nav class="flex-grow space-y-1">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-4">Main Menu</p>
+                    <a href="/" class="nav-link active-nav">Dashboard</a>
+                    <a href="/iphone" class="nav-link">iPhone Module</a>
+                    <a href="/mac" class="nav-link">Mac Studio</a>
+                </nav>
 
-            <div class="mt-auto border-t border-slate-800 pt-6">
-                <div class="flex items-center gap-3 px-2 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-slate-700 overflow-hidden border border-slate-600">
-                        <img src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" alt="User">
-                    </div>
-                    <div class="flex-grow overflow-hidden">
-                        <p id="user-email" class="text-xs font-bold text-white truncate">LOADING...</p>
+                <div class="mt-auto border-t border-slate-800 pt-6">
+                    <div class="px-2 mb-4">
+                        <p id="user-email" class="text-xs font-bold text-white truncate">SYNCING...</p>
                         <p class="text-[9px] text-slate-500 font-bold">Standard Node</p>
                     </div>
+                    <button onclick="logout()" class="w-full bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white transition py-2.5 rounded-lg text-xs font-bold">
+                        TERMINATE
+                    </button>
                 </div>
-                <button onclick="logout()" class="w-full bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white transition py-2 px-4 rounded-lg text-xs font-bold">
-                    TERMINATE
-                </button>
-            </div>
-        </aside>
+            </aside>
 
-        <main class="ml-64 flex-grow p-10">
-            <header class="flex justify-between items-center mb-10">
-                <div>
-                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight italic">X.CROP Terminal</h2>
-                    <p class="text-sm text-slate-500 font-medium">Monitoring active neural syncs.</p>
-                </div>
-            </header>
+            <main class="main-wrapper flex-grow">
+                <header class="flex justify-between items-center mb-10">
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight italic">Console_Root</h2>
+                        <p class="text-sm text-slate-500 font-medium">Neural link status: <span class="text-emerald-500 font-bold">Active</span></p>
+                    </div>
+                </header>
 
-            <div class="grid grid-cols-3 gap-6 mb-10">
-                <div class="stat-card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Revenue Flow</p>
-                    <h3 class="text-3xl font-black text-slate-900 mt-1">$42,860</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    <div class="stat-card">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Revenue</p>
+                        <h3 class="text-3xl font-black text-slate-900 mt-1">$42,860</h3>
+                    </div>
+                    <div class="stat-card border-l-4 border-l-blue-500">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Nodes</p>
+                        <h3 class="text-3xl font-black text-slate-900 mt-1">1,402</h3>
+                    </div>
+                    <div class="stat-card bg-slate-900 border-none text-white">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Health</p>
+                        <h3 class="text-3xl font-black mt-1 italic">99.9<span class="text-blue-500">%</span></h3>
+                    </div>
                 </div>
-                <div class="stat-card p-6 border-l-4 border-l-blue-500">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Nodes</p>
-                    <h3 class="text-3xl font-black text-slate-900 mt-1">1,402</h3>
-                </div>
-                <div class="stat-card p-6 bg-slate-900 border-none">
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">System Health</p>
-                    <h3 class="text-3xl font-black text-white mt-1 italic">99.9<span class="text-blue-500">%</span></h3>
-                </div>
-            </div>
 
-            <div class="stat-card overflow-hidden">
-                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
-                    <h4 class="font-bold text-slate-800">Recent Node Activity</h4>
+                <div class="stat-card overflow-hidden !p-0">
+                    <div class="p-6 border-b border-slate-100">
+                        <h4 class="font-bold text-slate-800">Recent Sync Activities</h4>
+                    </div>
+                    <table class="w-full text-left">
+                        <tbody class="divide-y divide-slate-100 text-sm">
+                            <tr>
+                                <td class="px-6 py-4 font-bold">XC-Node-Alpha</td>
+                                <td class="px-6 py-4 text-emerald-500 font-bold">Stable</td>
+                                <td class="px-6 py-4 text-right font-mono">14.2 GB</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold">XC-Node-Beta</td>
+                                <td class="px-6 py-4 text-blue-500 font-bold">Syncing</td>
+                                <td class="px-6 py-4 text-right font-mono">82.1 GB</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <table class="w-full text-left">
-                    <tbody class="divide-y divide-slate-100 text-sm">
-                        <tr>
-                            <td class="px-6 py-4 font-bold">XC-Iphone-15</td>
-                            <td class="px-6 py-4 text-emerald-500 font-bold">Stable</td>
-                            <td class="px-6 py-4 text-right font-mono">14.2 GB</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 font-bold">XC-Mac-Studio</td>
-                            <td class="px-6 py-4 text-blue-500 font-bold">Syncing</td>
-                            <td class="px-6 py-4 text-right font-mono">82.1 GB</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
     <script>
-        // Supabase Configuration
+        // SUPABASE CONFIG
         const SB_URL = "https://clyqcgvwgyhjluqdlhqo.supabase.co";
         const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseXFjZ3Z3Z3loamx1cWRsaHFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNzg1MTAsImV4cCI6MjA5MDc1NDUxMH0.AV70e71J1YMF5j_Fb7OVpuxVuKqZtv9TkJGqh01DGoA";
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // Security Check
+        // SECURE REDIRECT LOGIC
         async function checkAccess() {
-            const { data: { user } } = await sb.auth.getUser();
-            if (!user) {
+            try {
+                const { data: { user }, error } = await sb.auth.getUser();
+                
+                if (error || !user) {
+                    window.location.href = "/"; // Send back to login
+                } else {
+                    // Success: Show the page
+                    document.getElementById('dashboard-container').style.display = "block";
+                    document.getElementById('user-email').innerText = user.email.toUpperCase();
+                }
+            } catch (err) {
                 window.location.href = "/";
-            } else {
-                document.getElementById('dashboard-body').classList.remove('hidden');
-                document.getElementById('user-email').innerText = user.email.toUpperCase();
             }
         }
 
@@ -125,6 +121,7 @@
             window.location.href = "/";
         }
 
+        // Run immediately
         checkAccess();
     </script>
 </body>
