@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ᎻᎬᏞᏞᏟᎡᎾᏢ - ᏚᎥᎶᏁ ᎥᏁ</title>
+    <title>HellCrop - Login</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -47,22 +47,34 @@
 
         .logo-section { text-align: center; margin-bottom: 2.5rem; }
         .logo {
-            font-size: 2.4rem; font-weight: 900;
+            font-size: 2.5rem; font-weight: 900;
             background: linear-gradient(135deg, #fff 0%, #2a5f2a 50%, #fff 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             letter-spacing: -1.5px;
         }
-        .tagline { font-size: 0.88rem; color: #888; letter-spacing: 3px; font-weight: 600; margin-top: 6px; }
+        .tagline { 
+            font-size: 0.9rem; color: #888; letter-spacing: 4px; 
+            font-weight: 600; margin-top: 8px; 
+        }
 
-        .login-title { font-size: 1.85rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; }
-        .login-subtitle { font-size: 0.95rem; color: #999; text-align: center; margin-bottom: 2.2rem; }
+        .login-title { 
+            font-size: 1.9rem; font-weight: 700; text-align: center; 
+            margin-bottom: 0.5rem; 
+        }
+        .login-subtitle { 
+            font-size: 0.95rem; color: #999; text-align: center; 
+            margin-bottom: 2.3rem; 
+        }
 
-        .form-group { margin-bottom: 1.6rem; }
-        label { display: block; font-size: 0.92rem; font-weight: 600; color: #ddd; margin-bottom: 0.7rem; }
+        .form-group { margin-bottom: 1.7rem; }
+        label { 
+            display: block; font-size: 0.93rem; font-weight: 600; 
+            color: #ddd; margin-bottom: 0.7rem; 
+        }
         input {
-            width: 100%; padding: 0.95rem 1.1rem; background: rgba(255,255,255,0.05);
+            width: 100%; padding: 1rem 1.1rem; background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;
-            font-size: 0.97rem; transition: all 0.3s ease;
+            font-size: 0.98rem; transition: all 0.3s ease;
         }
         input:focus {
             background: rgba(255,255,255,0.09); border-color: #2a5f2a;
@@ -70,14 +82,16 @@
         }
 
         .login-btn {
-            width: 100%; padding: 1.05rem; background: linear-gradient(135deg, #2a5f2a 0%, #3d7f3d 100%);
+            width: 100%; padding: 1.1rem; background: linear-gradient(135deg, #2a5f2a 0%, #3d7f3d 100%);
             color: #fff; border: none; border-radius: 8px; font-size: 1.05rem; font-weight: 700;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1.2px;
-            margin-top: 1rem;
+            cursor: pointer; letter-spacing: 1px; margin-top: 0.8rem;
         }
         .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(42,95,42,0.45); }
 
-        .signup-link { text-align: center; font-size: 0.95rem; color: #999; margin-top: 2.5rem; }
+        .signup-link { 
+            text-align: center; font-size: 0.95rem; color: #999; 
+            margin-top: 2.6rem; 
+        }
         .signup-link a { color: #3d7f3d; font-weight: 700; text-decoration: none; }
         .signup-link a:hover { color: #2a5f2a; text-decoration: underline; }
 
@@ -85,7 +99,10 @@
         .particle { position: absolute; width: 4px; height: 4px; background: #2a5f2a; border-radius: 50%; animation: particleFloat 8s linear infinite; opacity: 0.3; }
         @keyframes particleFloat { 0% { transform: translateY(0) scale(1); opacity: 0.4; } 100% { transform: translateY(-300px) scale(0); opacity: 0; } }
 
-        .footer { position: relative; text-align: center; font-size: 0.8rem; color: #666; padding: 2rem 1rem 1.5rem; margin-top: 2rem; }
+        .footer { 
+            position: relative; text-align: center; font-size: 0.82rem; 
+            color: #666; padding: 2.5rem 1rem 2rem; margin-top: 2rem; 
+        }
         .footer a { color: #888; text-decoration: none; margin: 0 12px; }
         .footer a:hover { color: #3d7f3d; }
     </style>
@@ -105,39 +122,38 @@
             <div class="login-card">
                 <div class="logo-section">
                     <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
-                    <div class="tagline">ᎶᎡᎾᏔᏆᎻ ᏢᏞᎪᏆᎾᎡᎷ</div>
+                    <div class="tagline">GROWTH PLATFORM</div>
                 </div>
 
-                <h1 class="login-title">ᏔᎬᏞᏟᎾᎷᎬ ᏴᎪᏟᏦ</h1>
-                <p class="login-subtitle">ᏚᎥᎶᏁ ᎥᏁ ᏆᎾ ᏟᎾᏁᏆᎥᏁᏌᎬ ᎶᎡᎾᏔᎥᏁᎶ</p>
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Sign in to continue growing</p>
 
                 <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label for="email">ᎬᎷᎪᎥᏞ ᎪᎠᎠᎡᎬᏚᏚ</label>
+                        <label for="email">Email Address</label>
                         <input type="email" id="email" placeholder="your@email.com" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">ᏢᎪᏚᏚᏔᎾᎡᎠ</label>
+                        <label for="password">Password</label>
                         <input type="password" id="password" placeholder="Enter your password" required>
                     </div>
 
-                    <button type="submit" class="login-btn">ᏚᎥᎶᏁ ᎥᏁ</button>
+                    <button type="submit" class="login-btn">Sign In</button>
                 </form>
 
                 <div class="signup-link">
-                    ᎠᎾᏁ'Ꮖ ᎻᎪᏙᎬ ᎪᏁ ᎪᏟᏟᎾᏌᏁᏆ? 
-                    <a href="signup.html" id="createNew">ᏟᎡᎬᎪᏆᎬ ᏁᎬᏔ</a>
+                    Don't have an account? 
+                    <a href="signup.html" id="createNew">Create new</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer with all options -->
     <div class="footer">
-        © 2026 ᎻᎬᏞᏞᏟᎡᎾᏢ. ᎪᏞᏞ ᎡᎥᎶᎻᏆᏚ ᎡᎬᏚᎬᎡᏙᎬᎠ.<br>
-        <a href="index.html">ᎻᎾᎷᎬ</a> • 
-        <a href="privacypolicy.html">ᏢᎡᎥᏙᎪᏟᎽ ᏢᎾᏞᎥᏟᎽ</a> • 
-        <a href="termsofuse.html">ᏆᎬᎡᎷᏚ ᎾᎠ ᏌᏚᎬ</a>
+        © 2026 HellCrop. All rights reserved.<br>
+        <a href="index.html">Home</a> • 
+        <a href="privacypolicy.html">Privacy Policy</a> • 
+        <a href="termsofuse.html">Terms of Use</a>
     </div>
 
     <script>
@@ -159,11 +175,11 @@
         function handleLogin(event) {
             event.preventDefault();
             const btn = event.target.querySelector('.login-btn');
-            btn.innerHTML = 'ᏚᎥᎶᏁᎥᏁᎶ ᎥᏁ...';
+            btn.innerHTML = 'Signing In...';
             btn.disabled = true;
 
             setTimeout(() => {
-                alert("✅ ᏞᎾᎶᎥᏁ ᏚᏌᏟᏟᎬᏚᏚᎠᏌᏞ!\n\nᎡᎬᎠᎥᎡᎬᏟᏆᎥᏁᎶ ᏆᎾ ᎻᎾᎷᎬ...");
+                alert("✅ Login Successful!\n\nRedirecting to Home...");
                 window.location.href = "index.html";
             }, 1400);
         }
