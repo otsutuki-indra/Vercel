@@ -10,13 +10,16 @@
             padding: 0;
             box-sizing: border-box;
         }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
             color: #e5e5e5;
             line-height: 1.6;
-            overflow: hidden;
             min-height: 100vh;
+            overflow-y: auto;   /* Scroll enable kora */
         }
         /* Background Animation */
         .bg-animation {
@@ -49,13 +52,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 2rem 1rem;
         }
 
         .login-wrapper {
             position: relative;
             width: 100%;
             max-width: 420px;
+            margin: 40px 0;   /* Top-bottom gap */
         }
 
         .gradient-border {
@@ -90,7 +94,7 @@
 
         .logo-section {
             text-align: center;
-            margin-bottom: 2.2rem;
+            margin-bottom: 2.5rem;
         }
         .logo {
             font-size: 2.3rem;
@@ -105,24 +109,24 @@
             color: #888;
             letter-spacing: 3px;
             font-weight: 600;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .login-title {
             font-size: 1.85rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
         }
         .login-subtitle {
             font-size: 0.92rem;
             color: #999;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.2rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.6rem;   /* Gap increased */
             animation: fadeInUp 0.7s ease-out backwards;
         }
         .form-group:nth-child(1) { animation-delay: 0.1s; }
@@ -139,7 +143,7 @@
             font-size: 0.9rem;
             font-weight: 600;
             color: #ddd;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.7rem;   /* Label gap */
         }
         input {
             width: 100%;
@@ -169,9 +173,7 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1.2px;
-            position: relative;
-            overflow: hidden;
-            margin-top: 0.8rem;
+            margin-top: 1rem;
             animation: fadeInUp 0.7s ease-out 0.55s backwards;
         }
         .login-btn:hover {
@@ -183,7 +185,7 @@
             text-align: center;
             font-size: 0.92rem;
             color: #999;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             animation: fadeInUp 0.7s ease-out 0.65s backwards;
         }
         .signup-link a {
@@ -222,16 +224,12 @@
 
         /* Footer */
         .footer {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             text-align: center;
             font-size: 0.78rem;
             color: #666;
-            z-index: 20;
-            width: 100%;
-            padding: 0 1rem;
+            padding: 2rem 1rem 1.5rem;
+            margin-top: 2rem;
         }
         .footer a {
             color: #888;
@@ -294,7 +292,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        Copyright © 2026 HellCrop. All rights reserved. 
+        Copyright © 2026 HellCrop. All rights reserved. <br>
         <a href="#">Privacy Policy</a> 
         <a href="#">Terms of Use</a> 
         United States
@@ -325,7 +323,7 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                alert("✅ Account Created Successfully! \n\nWelcome to HellCrop 🌱\nYou can now sign in.");
+                alert("✅ Account Created Successfully! \n\nWelcome to HellCrop\nYou can now sign in.");
                 btn.innerHTML = 'Create Account';
                 btn.disabled = false;
                 window.location.href = 'signin.html';
