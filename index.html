@@ -1,100 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X.CROP | Nexus Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X.CROP | Nexus Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(135deg, #0a0a0a, #1a0033); font-family: 'Inter', sans-serif; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+    .neon-text { text-shadow: 0 0 15px #00ff9d; }
+  </style>
 </head>
-<body class="bg-[#020617] text-slate-400 font-['Inter'] antialiased">
+<body class="min-h-screen text-white p-6">
 
-    <div class="flex h-screen overflow-hidden">
-        
-        <aside class="w-72 bg-[#0A1128] border-r border-white/5 flex flex-col p-8">
-            <div class="flex items-center gap-3 mb-16">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-900/20 text-xl">X</div>
-                <span class="text-white font-extrabold tracking-tighter text-2xl italic">CROP</span>
-            </div>
-
-            <nav class="flex-grow space-y-2">
-                <a href="#" class="nav-item active">Nexus Overview</a>
-                <a href="#" class="nav-item">Revenue Assets</a>
-                <a href="#" class="nav-item">Network Nodes</a>
-                <a href="#" class="nav-item">Security Vault</a>
-            </nav>
-
-            <div class="mt-auto bg-white/5 p-4 rounded-2xl border border-white/5">
-                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Authenticated_Node</div>
-                <div class="text-xs font-bold text-white flex items-center gap-2">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full"></span> Admin_01@X-CROP
-                </div>
-            </div>
-        </aside>
-
-        <main class="flex-grow overflow-y-auto p-12 bg-gradient-to-br from-[#020617] to-[#0B1229]">
-            
-            <header class="flex justify-between items-center mb-16">
-                <div>
-                    <h1 class="text-4xl font-extrabold text-white tracking-tight italic underline decoration-blue-600 decoration-4 underline-offset-8">DASHBOARD</h1>
-                    <p class="mt-4 text-sm font-medium text-slate-500">Global system synchronization is currently operational.</p>
-                </div>
-                <div class="flex gap-4">
-                    <button class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-xl border border-white/5 text-[10px] font-bold uppercase tracking-widest transition">Export_PDF</button>
-                    <button onclick="location.reload()" class="bg-red-600/10 hover:bg-red-600/20 px-6 py-3 rounded-xl border border-red-600/20 text-[10px] font-bold uppercase tracking-widest text-red-500 transition">Logout</button>
-                </div>
-            </header>
-
-            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="metric-card">
-                    <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Gross_Liquidity</div>
-                    <div class="text-5xl font-black text-white italic tracking-tighter">$42.8M</div>
-                    <div class="mt-4 text-[10px] font-bold text-emerald-500 tracking-widest">+12.40%</div>
-                </div>
-                <div class="metric-card">
-                    <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Active_Nodes</div>
-                    <div class="text-5xl font-black text-white italic tracking-tighter">1,402</div>
-                    <div class="mt-4 text-[10px] font-bold text-blue-500 tracking-widest">STABLE_RELAY</div>
-                </div>
-                <div class="metric-card border-blue-600/30 shadow-[0_0_40px_rgba(37,99,235,0.05)]">
-                    <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Network_Health</div>
-                    <div class="text-5xl font-black text-blue-500 italic tracking-tighter">99.9%</div>
-                    <div class="mt-4 text-[10px] font-bold text-blue-400 tracking-widest">OPTIMAL</div>
-                </div>
-            </section>
-
-            <section class="bg-[#0A1128] rounded-[40px] border border-white/5 p-12 overflow-hidden relative">
-                <div class="absolute top-0 right-0 p-12 text-8xl font-black italic opacity-[0.02] select-none">XC</div>
-                <h3 class="text-xs font-bold uppercase tracking-[0.4em] text-slate-500 mb-12">Live_Transaction_Relay</h3>
-                
-                <div class="space-y-8">
-                    <div class="flex justify-between items-center border-b border-white/5 pb-6 group hover:translate-x-2 transition-transform duration-500">
-                        <div>
-                            <div class="text-sm font-bold text-white tracking-tight italic">Node_Tokyo_661</div>
-                            <div class="text-[10px] font-bold text-slate-500 mt-1">UTC 06:42:01</div>
-                        </div>
-                        <div class="text-sm font-black text-emerald-500">+$2,450.00</div>
-                    </div>
-                    <div class="flex justify-between items-center border-b border-white/5 pb-6 group hover:translate-x-2 transition-transform duration-500">
-                        <div>
-                            <div class="text-sm font-bold text-white tracking-tight italic">Node_London_Asset</div>
-                            <div class="text-[10px] font-bold text-slate-500 mt-1">UTC 06:41:44</div>
-                        </div>
-                        <div class="text-sm font-black text-emerald-500">+$1,120.40</div>
-                    </div>
-                    <div class="flex justify-between items-center group hover:translate-x-2 transition-transform duration-500">
-                        <div>
-                            <div class="text-sm font-bold text-white tracking-tight italic">Internal_Sync_Ref</div>
-                            <div class="text-[10px] font-bold text-slate-500 mt-1">UTC 06:40:12</div>
-                        </div>
-                        <div class="text-sm font-black text-blue-500">PROCESSING...</div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-4xl font-bold tracking-tighter neon-text">X<span class="text-emerald-400">CROP</span></h1>
+      <p class="text-zinc-400 text-sm">NEXUS OVERVIEW</p>
     </div>
+    <div class="flex gap-4">
+      <button class="glass px-6 py-2 rounded-xl flex items-center gap-2 hover:bg-white/10 transition">
+        <i class="fas fa-download"></i> Export PDF
+      </button>
+      <button class="glass px-6 py-2 rounded-xl flex items-center gap-2 hover:bg-red-500/20 text-red-400 transition">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="glass rounded-3xl p-6 mb-8 flex items-center gap-4">
+    <div class="w-4 h-4 bg-emerald-400 rounded-full animate-pulse"></div>
+    <p class="text-emerald-400 font-medium">Global system synchronization is currently <span class="font-bold">OPERATIONAL</span></p>
+  </div>
+
+  <!-- Metrics Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    
+    <div class="glass rounded-3xl p-8">
+      <p class="text-zinc-400 text-sm">GROSS LIQUIDITY</p>
+      <p class="text-5xl font-bold mt-2">$42.8M</p>
+      <p class="text-emerald-400 flex items-center gap-1 mt-3">
+        <i class="fas fa-arrow-up"></i> +12.40%
+      </p>
+    </div>
+
+    <div class="glass rounded-3xl p-8">
+      <p class="text-zinc-400 text-sm">ACTIVE NODES</p>
+      <p class="text-5xl font-bold mt-2">1,402</p>
+      <p class="text-emerald-400 mt-3">STABLE RELAY</p>
+    </div>
+
+    <div class="glass rounded-3xl p-8">
+      <p class="text-zinc-400 text-sm">NETWORK HEALTH</p>
+      <p class="text-5xl font-bold mt-2 text-emerald-400">99.9%</p>
+      <p class="text-emerald-400 font-bold mt-3">OPTIMAL</p>
+    </div>
+
+    <div class="glass rounded-3xl p-8 bg-gradient-to-br from-purple-600/20 to-emerald-600/20">
+      <p class="text-zinc-400 text-sm">AUTHENTICATED NODE</p>
+      <p class="text-xl font-semibold mt-2">Admin_01@X-CROP</p>
+    </div>
+  </div>
+
+  <!-- Live Transactions -->
+  <div class="glass rounded-3xl p-8">
+    <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
+      <i class="fas fa-bolt text-yellow-400"></i> LIVE TRANSACTION RELAY
+    </h2>
+    
+    <div class="space-y-6">
+      <div class="flex justify-between items-center border-b border-white/10 pb-6">
+        <div>
+          <p class="font-medium">Node_Tokyo_661</p>
+          <p class="text-zinc-500 text-sm">UTC 06:42:01</p>
+        </div>
+        <p class="text-emerald-400 font-bold text-2xl">+$2,450.00</p>
+      </div>
+
+      <div class="flex justify-between items-center border-b border-white/10 pb-6">
+        <div>
+          <p class="font-medium">Node_London_Asset</p>
+          <p class="text-zinc-500 text-sm">UTC 06:41:44</p>
+        </div>
+        <p class="text-emerald-400 font-bold text-2xl">+$1,120.40</p>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="font-medium">Internal_Sync_Ref</p>
+          <p class="text-zinc-500 text-sm">UTC 06:40:12</p>
+        </div>
+        <p class="text-yellow-400 font-bold flex items-center gap-2">
+          <span class="animate-pulse">●</span> PROCESSING... 99%
+        </p>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
