@@ -5,247 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HellCrop - Login</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
             color: #e5e5e5;
             line-height: 1.6;
-            overflow: hidden;
             min-height: 100vh;
+            overflow-y: auto;
         }
-        /* Background Animation */
         .bg-animation {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; pointer-events: none; z-index: 0;
         }
         .bubble {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.06;
+            position: absolute; border-radius: 50%; opacity: 0.06;
             animation: float 18s infinite ease-in-out;
         }
         .bubble1 { width: 420px; height: 420px; background: #2a5f2a; top: -120px; right: -80px; animation-delay: 0s; }
         .bubble2 { width: 320px; height: 320px; background: #4a4a4a; bottom: -80px; left: -120px; animation-delay: -6s; }
         .bubble3 { width: 280px; height: 280px; background: #1a2e1a; top: 40%; left: 60%; animation-delay: -12s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(40px) rotate(8deg); }
-        }
+        @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(40px) rotate(8deg); } }
 
-        .container {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .login-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 420px;
-        }
-
+        .container { position: relative; z-index: 10; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+        .login-wrapper { position: relative; width: 100%; max-width: 420px; margin: 40px 0; }
         .gradient-border {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(135deg, #2a5f2a 0%, #4a4a4a 50%, #2a5f2a 100%);
-            border-radius: 16px;
-            padding: 2px;
-            animation: gradientFlow 4s ease infinite;
+            border-radius: 16px; padding: 2px; animation: gradientFlow 4s ease infinite;
         }
-
-        @keyframes gradientFlow {
-            0%, 100% { opacity: 0.25; }
-            50% { opacity: 0.6; }
-        }
+        @keyframes gradientFlow { 0%,100% { opacity: 0.25; } 50% { opacity: 0.6; } }
 
         .login-card {
-            position: relative;
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.96) 0%, rgba(30, 30, 30, 0.96) 100%);
-            border: 1px solid rgba(42, 95, 42, 0.35);
-            border-radius: 16px;
-            padding: 3rem 2.5rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
-            animation: cardPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; background: linear-gradient(135deg, rgba(20,20,20,0.96) 0%, rgba(30,30,30,0.96) 100%);
+            border: 1px solid rgba(42,95,42,0.35); border-radius: 16px; padding: 3rem 2.5rem;
+            backdrop-filter: blur(20px); box-shadow: 0 25px 70px rgba(0,0,0,0.5);
+            animation: cardPop 0.9s cubic-bezier(0.34,1.56,0.64,1);
         }
+        @keyframes cardPop { from { opacity: 0; transform: scale(0.88) translateY(60px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        @keyframes cardPop {
-            from { opacity: 0; transform: scale(0.88) translateY(60px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
+        .logo-section { text-align: center; margin-bottom: 2.5rem; }
         .logo {
-            font-size: 2.3rem;
-            font-weight: 900;
+            font-size: 2.3rem; font-weight: 900;
             background: linear-gradient(135deg, #fff 0%, #2a5f2a 50%, #fff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             letter-spacing: -1.5px;
         }
-        .tagline {
-            font-size: 0.85rem;
-            color: #888;
-            letter-spacing: 3px;
-            font-weight: 600;
-            margin-top: 4px;
-        }
+        .tagline { font-size: 0.85rem; color: #888; letter-spacing: 3px; font-weight: 600; margin-top: 6px; }
 
-        .login-title {
-            font-size: 1.85rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 0.4rem;
-        }
-        .login-subtitle {
-            font-size: 0.92rem;
-            color: #999;
-            text-align: center;
-            margin-bottom: 2.2rem;
-        }
+        .login-title { font-size: 1.85rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; }
+        .login-subtitle { font-size: 0.92rem; color: #999; text-align: center; margin-bottom: 2.2rem; }
 
-        .form-group {
-            margin-bottom: 1.6rem;
-            animation: fadeInUp 0.7s ease-out backwards;
-        }
+        .form-group { margin-bottom: 1.6rem; animation: fadeInUp 0.7s ease-out backwards; }
         .form-group:nth-child(1) { animation-delay: 0.15s; }
         .form-group:nth-child(2) { animation-delay: 0.3s; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #ddd;
-            margin-bottom: 0.6rem;
-        }
+        label { display: block; font-size: 0.9rem; font-weight: 600; color: #ddd; margin-bottom: 0.7rem; }
         input {
-            width: 100%;
-            padding: 0.95rem 1.1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.96rem;
-            transition: all 0.3s ease;
+            width: 100%; padding: 0.95rem 1.1rem; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;
+            font-size: 0.96rem; transition: all 0.3s ease;
         }
         input:focus {
-            background: rgba(255,255,255,0.09);
-            border-color: #2a5f2a;
+            background: rgba(255,255,255,0.09); border-color: #2a5f2a;
             box-shadow: 0 0 0 4px rgba(42,95,42,0.15);
         }
 
         .login-btn {
-            width: 100%;
-            padding: 1.05rem;
-            background: linear-gradient(135deg, #2a5f2a 0%, #3d7f3d 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.02rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            position: relative;
-            overflow: hidden;
-            margin-top: 0.5rem;
-            animation: fadeInUp 0.7s ease-out 0.45s backwards;
+            width: 100%; padding: 1.05rem; background: linear-gradient(135deg, #2a5f2a 0%, #3d7f3d 100%);
+            color: #fff; border: none; border-radius: 8px; font-size: 1.02rem; font-weight: 700;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1.2px;
+            margin-top: 1rem; animation: fadeInUp 0.7s ease-out 0.45s backwards;
         }
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(42,95,42,0.45);
-        }
+        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(42,95,42,0.45); }
 
-        .signup-link {
-            text-align: center;
-            font-size: 0.92rem;
-            color: #999;
-            margin-top: 2rem;
-            animation: fadeInUp 0.7s ease-out 0.6s backwards;
-        }
-        .signup-link a {
-            color: #2a5f2a;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .signup-link a:hover {
-            color: #3d7f3d;
-            text-decoration: underline;
-        }
+        .signup-link { text-align: center; font-size: 0.92rem; color: #999; margin-top: 2.5rem; animation: fadeInUp 0.7s ease-out 0.6s backwards; }
+        .signup-link a { color: #2a5f2a; font-weight: 700; text-decoration: none; transition: all 0.3s; }
+        .signup-link a:hover { color: #3d7f3d; text-decoration: underline; }
 
-        /* Particles */
-        .particles {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            border-radius: 16px;
-        }
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #2a5f2a;
-            border-radius: 50%;
-            animation: particleFloat 8s linear infinite;
-            opacity: 0.3;
-        }
-        @keyframes particleFloat {
-            0% { transform: translateY(0) scale(1); opacity: 0.4; }
-            100% { transform: translateY(-300px) scale(0); opacity: 0; }
-        }
+        .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; border-radius: 16px; }
+        .particle { position: absolute; width: 4px; height: 4px; background: #2a5f2a; border-radius: 50%; animation: particleFloat 8s linear infinite; opacity: 0.3; }
+        @keyframes particleFloat { 0% { transform: translateY(0) scale(1); opacity: 0.4; } 100% { transform: translateY(-300px) scale(0); opacity: 0; } }
 
-        /* Footer Copyright */
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            font-size: 0.78rem;
-            color: #666;
-            z-index: 20;
-            width: 100%;
-            padding: 0 1rem;
-        }
-        .footer a {
-            color: #888;
-            text-decoration: none;
-            margin: 0 8px;
-            transition: color 0.3s;
-        }
-        .footer a:hover {
-            color: #2a5f2a;
-        }
+        .footer { position: relative; text-align: center; font-size: 0.78rem; color: #666; padding: 2rem 1rem 1.5rem; margin-top: 2rem; }
+        .footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.3s; }
+        .footer a:hover { color: #2a5f2a; }
     </style>
 </head>
 <body>
 
-    <!-- Background Animation -->
     <div class="bg-animation">
         <div class="bubble bubble1"></div>
         <div class="bubble bubble2"></div>
@@ -257,7 +107,6 @@
             <div class="gradient-border"></div>
             
             <div class="login-card">
-                <!-- Logo -->
                 <div class="logo-section">
                     <div class="logo">HellCrop</div>
                     <div class="tagline">GROWTH PLATFORM</div>
@@ -287,22 +136,19 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
-        Copyright © 2026 HellCrop. All rights reserved. 
+        Copyright © 2026 HellCrop. All rights reserved. <br>
         <a href="#">Privacy Policy</a> 
         <a href="#">Terms of Use</a> 
         United States
     </div>
 
     <script>
-        // Extra particles
         function createParticles() {
             const card = document.querySelector('.login-card');
             const particlesContainer = document.createElement('div');
             particlesContainer.className = 'particles';
             card.appendChild(particlesContainer);
-
             for(let i = 0; i < 25; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
@@ -320,23 +166,17 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                alert("✅ Login Successful! \n\nWelcome back to HellCrop 🌿");
-                btn.innerHTML = 'Sign In';
-                btn.disabled = false;
-                document.getElementById('loginForm').reset();
+                alert("✅ Login Successful!\n\nRedirecting to dashboard...");
+                window.location.href = "index.html";   // Main page e jabe
             }, 1400);
         }
 
-        // Create new link
         document.getElementById('createNew').addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = 'signup.html';
         });
 
-        // Init particles
-        window.onload = () => {
-            createParticles();
-        };
+        window.onload = () => createParticles();
     </script>
 </body>
 </html>
