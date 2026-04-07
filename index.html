@@ -1,104 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>X.CROP | Nexus Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-    body { background: linear-gradient(135deg, #0a0a0a, #1a0033); font-family: 'Inter', sans-serif; }
-    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-    .neon-text { text-shadow: 0 0 15px #00ff9d; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HellCrop - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #0a0a0a;
+            color: #e5e5e5;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Abstract Background */
+        .bg-glow {
+            position: fixed; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(42, 95, 42, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -200px; right: -200px; z-index: -1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(42, 95, 42, 0.2);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 900; margin-bottom: 3rem; 
+                background: linear-gradient(135deg, #fff, #2a5f2a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav-links { list-style: none; flex: 1; }
+        .nav-item { margin-bottom: 0.5rem; }
+        .nav-link {
+            display: flex; align-items: center; padding: 12px 15px;
+            text-decoration: none; color: #888; border-radius: 10px;
+            transition: 0.3s; font-size: 0.95rem; font-weight: 500;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: rgba(42, 95, 42, 0.2); color: #fff;
+            box-shadow: inset 0 0 10px rgba(42, 95, 42, 0.1);
+        }
+
+        /* Main Content */
+        .main-content { margin-left: 260px; flex: 1; padding: 2.5rem; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .welcome h1 { font-size: 1.8rem; margin-bottom: 5px; }
+        .welcome p { color: #666; font-size: 0.9rem; }
+
+        .user-profile { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); 
+                        padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.05); }
+        .avatar { width: 35px; height: 35px; border-radius: 50%; background: #2a5f2a; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(42, 95, 42, 0.2);
+            padding: 1.8rem; border-radius: 20px;
+            transition: 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); border-color: #2a5f2a; }
+        .stat-label { color: #666; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 1.8rem; font-weight: 800; color: #fff; }
+        .stat-trend { font-size: 0.8rem; margin-top: 8px; }
+        .trend-up { color: #3d7f3d; }
+
+        /* Content Sections */
+        .dashboard-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+        .section-card {
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px; padding: 2rem;
+        }
+        h3 { margin-bottom: 1.5rem; font-size: 1.1rem; color: #fff; }
+
+        /* Mini Table */
+        .activity-table { width: 100%; border-collapse: collapse; }
+        .activity-table th { text-align: left; color: #444; font-size: 0.8rem; padding-bottom: 1rem; text-transform: uppercase; }
+        .activity-table td { padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
+        .status { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+        .status-ready { background: rgba(61, 127, 61, 0.2); color: #50c878; }
+    </style>
 </head>
-<body class="min-h-screen text-white p-6">
+<body>
+    <div class="bg-glow"></div>
 
-  <!-- Header -->
-  <div class="flex justify-between items-center mb-8">
-    <div>
-      <h1 class="text-4xl font-bold tracking-tighter neon-text">X<span class="text-emerald-400">CROP</span></h1>
-      <p class="text-zinc-400 text-sm">NEXUS OVERVIEW</p>
-    </div>
-    <div class="flex gap-4">
-      <button class="glass px-6 py-2 rounded-xl flex items-center gap-2 hover:bg-white/10 transition">
-        <i class="fas fa-download"></i> Export PDF
-      </button>
-      <button class="glass px-6 py-2 rounded-xl flex items-center gap-2 hover:bg-red-500/20 text-red-400 transition">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
-    </div>
-  </div>
+    <nav class="sidebar">
+        <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="#" class="nav-link active">Dashboard</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Crop Management</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Analytics</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Marketplace</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Security</a></li>
+        </ul>
+        <div class="nav-item"><a href="signin.html" class="nav-link">Logout</a></div>
+    </nav>
 
-  <!-- Status -->
-  <div class="glass rounded-3xl p-6 mb-8 flex items-center gap-4">
-    <div class="w-4 h-4 bg-emerald-400 rounded-full animate-pulse"></div>
-    <p class="text-emerald-400 font-medium">Global system synchronization is currently <span class="font-bold">OPERATIONAL</span></p>
-  </div>
+    <main class="main-content">
+        <header>
+            <div class="welcome">
+                <h1>Welcome back, Admin</h1>
+                <p>System status is stable and optimized.</p>
+            </div>
+            <div class="user-profile">
+                <div class="avatar"></div>
+                <span style="font-size: 0.9rem;">User Account</span>
+            </div>
+        </header>
 
-  <!-- Metrics Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    
-    <div class="glass rounded-3xl p-8">
-      <p class="text-zinc-400 text-sm">GROSS LIQUIDITY</p>
-      <p class="text-5xl font-bold mt-2">$42.8M</p>
-      <p class="text-emerald-400 flex items-center gap-1 mt-3">
-        <i class="fas fa-arrow-up"></i> +12.40%
-      </p>
-    </div>
-
-    <div class="glass rounded-3xl p-8">
-      <p class="text-zinc-400 text-sm">ACTIVE NODES</p>
-      <p class="text-5xl font-bold mt-2">1,402</p>
-      <p class="text-emerald-400 mt-3">STABLE RELAY</p>
-    </div>
-
-    <div class="glass rounded-3xl p-8">
-      <p class="text-zinc-400 text-sm">NETWORK HEALTH</p>
-      <p class="text-5xl font-bold mt-2 text-emerald-400">99.9%</p>
-      <p class="text-emerald-400 font-bold mt-3">OPTIMAL</p>
-    </div>
-
-    <div class="glass rounded-3xl p-8 bg-gradient-to-br from-purple-600/20 to-emerald-600/20">
-      <p class="text-zinc-400 text-sm">AUTHENTICATED NODE</p>
-      <p class="text-xl font-semibold mt-2">Admin_01@X-CROP</p>
-    </div>
-  </div>
-
-  <!-- Live Transactions -->
-  <div class="glass rounded-3xl p-8">
-    <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
-      <i class="fas fa-bolt text-yellow-400"></i> LIVE TRANSACTION RELAY
-    </h2>
-    
-    <div class="space-y-6">
-      <div class="flex justify-between items-center border-b border-white/10 pb-6">
-        <div>
-          <p class="font-medium">Node_Tokyo_661</p>
-          <p class="text-zinc-500 text-sm">UTC 06:42:01</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Harvest</div>
+                <div class="stat-value">2,840 kg</div>
+                <div class="stat-trend trend-up">↑ 12% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active Cycles</div>
+                <div class="stat-value">14</div>
+                <div class="stat-trend">All systems green</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Efficiency</div>
+                <div class="stat-value">94.2%</div>
+                <div class="stat-trend trend-up">↑ 3.1% optimized</div>
+            </div>
         </div>
-        <p class="text-emerald-400 font-bold text-2xl">+$2,450.00</p>
-      </div>
 
-      <div class="flex justify-between items-center border-b border-white/10 pb-6">
-        <div>
-          <p class="font-medium">Node_London_Asset</p>
-          <p class="text-zinc-500 text-sm">UTC 06:41:44</p>
+        <div class="dashboard-row">
+            <div class="section-card">
+                <h3>Recent Harvest Operations</h3>
+                <table class="activity-table">
+                    <thead>
+                        <tr>
+                            <th>Crop Type</th>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Yield</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alpha Grain</td>
+                            <td>#HC-902</td>
+                            <td><span class="status status-ready">Completed</span></td>
+                            <td>420 kg</td>
+                        </tr>
+                        <tr>
+                            <td>Beta Moss</td>
+                            <td>#HC-881</td>
+                            <td><span class="status status-ready">Completed</span></td>
+                            <td>115 kg</td>
+                        </tr>
+                        <tr>
+                            <td>Synthetic Root</td>
+                            <td>#HC-750</td>
+                            <td><span class="status status-ready">Completed</span></td>
+                            <td>890 kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="section-card">
+                <h3>System Notifications</h3>
+                <div style="color: #666; font-size: 0.9rem;">
+                    <p style="margin-bottom: 15px;">• New security patch applied successfully.</p>
+                    <p style="margin-bottom: 15px;">• Update scheduled for 02:00 AM.</p>
+                    <p>• Data backup confirmed at midnight.</p>
+                </div>
+            </div>
         </div>
-        <p class="text-emerald-400 font-bold text-2xl">+$1,120.40</p>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <div>
-          <p class="font-medium">Internal_Sync_Ref</p>
-          <p class="text-zinc-500 text-sm">UTC 06:40:12</p>
-        </div>
-        <p class="text-yellow-400 font-bold flex items-center gap-2">
-          <span class="animate-pulse">●</span> PROCESSING... 99%
-        </p>
-      </div>
-    </div>
-  </div>
-
+    </main>
 </body>
 </html>
