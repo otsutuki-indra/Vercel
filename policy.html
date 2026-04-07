@@ -11,7 +11,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
             color: #e5e5e5;
-            line-height: 1.7;
+            line-height: 1.75;
             min-height: 100vh;
             overflow-y: auto;
         }
@@ -21,56 +21,37 @@
         }
         .bubble {
             position: absolute; border-radius: 50%; opacity: 0.05;
-            animation: float 20s infinite ease-in-out;
+            animation: float 22s infinite ease-in-out;
         }
-        .bubble1 { width: 500px; height: 500px; background: #2a5f2a; top: -150px; right: -100px; }
-        .bubble2 { width: 350px; height: 350px; background: #4a4a4a; bottom: -100px; left: -150px; animation-delay: -8s; }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(50px); } }
+        .bubble1 { width: 520px; height: 520px; background: #2a5f2a; top: -180px; right: -120px; }
+        .bubble2 { width: 380px; height: 380px; background: #4a4a4a; bottom: -120px; left: -160px; animation-delay: -10s; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(60px); } }
 
-        .container {
-            position: relative; z-index: 10; max-width: 900px; margin: 0 auto;
-            padding: 4rem 1.5rem 6rem;
-        }
-        .header {
-            text-align: center; margin-bottom: 4rem;
-        }
+        .container { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 5rem 1.5rem 7rem; }
+        .header { text-align: center; margin-bottom: 4rem; }
         .logo {
-            font-size: 2.4rem; font-weight: 900;
+            font-size: 2.5rem; font-weight: 900;
             background: linear-gradient(135deg, #fff 0%, #2a5f2a 50%, #fff 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .title {
-            font-size: 2.2rem; font-weight: 700; margin: 1.5rem 0 0.5rem;
-        }
-        .last-updated {
-            color: #888; font-size: 0.95rem;
-        }
+        .title { font-size: 2.3rem; font-weight: 700; margin: 1.2rem 0 0.6rem; }
+        .updated { color: #888; font-size: 0.95rem; }
 
         .content {
-            background: rgba(25,25,25,0.95); border: 1px solid rgba(42,95,42,0.3);
-            border-radius: 16px; padding: 3rem; line-height: 1.8;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            background: rgba(25,25,25,0.96); border: 1px solid rgba(42,95,42,0.35);
+            border-radius: 18px; padding: 3.2rem; box-shadow: 0 25px 80px rgba(0,0,0,0.45);
         }
-        h2 {
-            color: #2a5f2a; margin: 2.5rem 0 1rem; font-size: 1.5rem;
-        }
-        p, li {
-            margin-bottom: 1.1rem; color: #ddd;
-        }
-        ul {
-            padding-left: 1.8rem; margin-bottom: 1.5rem;
-        }
-        a {
-            color: #3d7f3d; text-decoration: none;
-        }
+        h2 { color: #3d7f3d; margin: 2.8rem 0 1.2rem; font-size: 1.55rem; }
+        p, li { margin-bottom: 1.15rem; color: #ddd; }
+        ul { padding-left: 1.9rem; }
+        a { color: #3d7f3d; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        .footer {
-            text-align: center; margin-top: 4rem; color: #666; font-size: 0.85rem;
+        .footer { 
+            text-align: center; margin-top: 5rem; color: #666; font-size: 0.82rem; 
         }
-        .footer a {
-            color: #888; margin: 0 12px;
-        }
+        .footer a { color: #888; margin: 0 12px; }
+        .footer a:hover { color: #3d7f3d; }
     </style>
 </head>
 <body>
@@ -82,47 +63,48 @@
 
     <div class="container">
         <div class="header">
-            <div class="logo">HellCrop</div>
+            <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
             <div class="title">Privacy Policy</div>
-            <div class="last-updated">Last Updated: April 07, 2026</div>
+            <div class="updated">Last Updated: April 07, 2026</div>
         </div>
 
         <div class="content">
-            <p>HellCrop ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our SaaS platform.</p>
+            <p>This Privacy Policy explains how HellCrop collects, uses, and protects your data. It applies to users in the <strong>United States</strong> and <strong>European Union</strong> (GDPR compliant).</p>
 
             <h2>1. Information We Collect</h2>
             <ul>
-                <li>Personal Information: Name, email address, phone number</li>
-                <li>Account Information: Password, profile data</li>
-                <li>Usage Data: Crop data, growth metrics, farm analytics</li>
-                <li>Device & Log Data: IP address, browser type, access times</li>
+                <li>Account Information: Name, email, password, farm details</li>
+                <li>Crop & Usage Data: Growth metrics, soil data, harvest logs</li>
+                <li>Technical Data: IP address, device info, browser type</li>
+                <li>Payment Information: Processed securely via third-party providers</li>
             </ul>
 
             <h2>2. How We Use Your Information</h2>
             <ul>
                 <li>To provide and improve our crop growth platform</li>
-                <li>To personalize your farming experience</li>
-                <li>To send important updates and notifications</li>
-                <li>To analyze usage and enhance performance</li>
+                <li>To personalize farming recommendations</li>
+                <li>To send important updates and support</li>
+                <li>To analyze platform performance</li>
             </ul>
 
             <h2>3. Data Sharing</h2>
-            <p>We do not sell your personal data. We may share information with trusted service providers only when necessary to operate the service.</p>
+            <p>We do not sell your data. Information may be shared with trusted service providers only when necessary.</p>
 
             <h2>4. Data Security</h2>
-            <p>We use industry-standard encryption and security measures to protect your data. However, no system is 100% secure.</p>
+            <p>We use industry-standard encryption and regular security audits to protect your data.</p>
 
-            <h2>5. Your Rights</h2>
-            <p>You can access, update, or delete your account data anytime by contacting us.</p>
+            <h2>5. Your Rights (GDPR for EU Users)</h2>
+            <p>EU users have the right to access, rectify, delete, restrict, or port their data. US users can exercise similar rights under CCPA.</p>
 
             <h2>6. Cookies</h2>
-            <p>We use cookies to improve your experience and analyze traffic.</p>
+            <p>We use essential cookies for functionality and analytics cookies to improve user experience.</p>
         </div>
 
         <div class="footer">
-            Copyright © 2026 HellCrop. All rights reserved.<br>
+            © 2026 HellCrop. All rights reserved.<br>
             <a href="terms.html">Terms of Use</a> • 
-            <a href="signin.html">Back to Login</a>
+            <a href="index.html">Home</a> • 
+            <a href="signin.html">Sign In</a>
         </div>
     </div>
 </body>
