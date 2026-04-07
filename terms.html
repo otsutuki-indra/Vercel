@@ -9,18 +9,25 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
-            color: #e5e5e5; line-height: 1.75;
+            color: #e5e5e5; line-height: 1.75; min-height: 100vh; display: flex; flex-direction: column;
         }
-        .container { max-width: 900px; margin: 0 auto; padding: 5rem 1.5rem; }
-        .logo { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 1rem; background: linear-gradient(135deg, #fff, #2a5f2a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .title { text-align: center; font-size: 2rem; margin-bottom: 3rem; }
-        .content { background: rgba(25,25,25,0.9); border: 1px solid rgba(42,95,42,0.3); border-radius: 18px; padding: 3rem; }
-        h2 { color: #3d7f3d; margin: 2rem 0 1rem; font-size: 1.5rem; }
-        p, li { color: #ccc; margin-bottom: 1rem; }
+        .bg-animation { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .bubble { position: absolute; border-radius: 50%; opacity: 0.05; animation: float 22s infinite ease-in-out; }
+        .bubble1 { width: 500px; height: 500px; background: #4a4a4a; bottom: -150px; left: -100px; }
 
-        .footer { width: 100%; padding: 4rem 1rem; display: flex; justify-content: center; align-items: center; }
+        .container { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 5rem 1.5rem; flex: 1; }
+        .header { text-align: center; margin-bottom: 3.5rem; }
+        .logo { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #fff, #2a5f2a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .title { font-size: 2.1rem; margin-top: 1rem; color: #fff; }
+
+        .content { background: rgba(25,25,25,0.95); border: 1px solid rgba(42,95,42,0.3); border-radius: 18px; padding: 3rem; backdrop-filter: blur(10px); }
+        h2 { color: #3d7f3d; margin: 2.5rem 0 1rem; font-size: 1.5rem; }
+        p, li { color: #ccc; margin-bottom: 1.2rem; }
+
+        /* Unified Footer */
+        .footer { width: 100%; padding: 4rem 1rem 3rem; display: flex; justify-content: center; align-items: center; }
         .footer-inner { display: flex; align-items: center; gap: 15px; color: #666; font-size: 0.82rem; flex-wrap: wrap; justify-content: center; }
-        .footer-inner a { color: #888; text-decoration: none; }
+        .footer-inner a { color: #888; text-decoration: none; transition: 0.3s; }
         .footer-inner a:hover { color: #3d7f3d; }
         .footer-socials { display: flex; gap: 15px; align-items: center; margin-left: 10px; padding-left: 15px; border-left: 1px solid #333; }
         .footer-socials svg { width: 16px; height: 16px; fill: #666; transition: 0.3s; }
@@ -28,15 +35,20 @@
     </style>
 </head>
 <body>
+    <div class="bg-animation"><div class="bubble bubble1"></div></div>
     <div class="container">
-        <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
-        <h1 class="title">Terms of Use</h1>
+        <div class="header">
+            <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
+            <h1 class="title">Terms of Use</h1>
+        </div>
         <div class="content">
-            <p>By using HellCrop, you agree to our universal service terms.</p>
-            <h2>1. User Responsibility</h2>
-            <p>You are responsible for your account security and lawful use of the platform.</p>
-            <h2>2. License</h2>
-            <p>We grant you a limited license to access our growth tools for personal or business use.</p>
+            <p>Welcome to HellCrop. By accessing our platform, you agree to the following universal terms and conditions.</p>
+            <h2>1. Service Access</h2>
+            <p>HellCrop grants you a non-transferable, limited license to use our tools for agriculture management and data tracking.</p>
+            <h2>2. User Conduct</h2>
+            <p>You agree not to use the platform for any unlawful activities or in any manner that disrupts the global community or system stability.</p>
+            <h2>3. Limitation of Liability</h2>
+            <p>HellCrop is provided "as-is." We are not liable for any indirect damages resulting from the use or inability to use our services.</p>
         </div>
     </div>
     <footer class="footer">
