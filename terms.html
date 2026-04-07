@@ -1,135 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template</title>
-  </head>
-  <body
-    x-data="{ page: 'alerts', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
-    x-init="
-         darkMode = JSON.parse(localStorage.getItem('darkMode'));
-         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
-    :class="{'dark bg-gray-900': darkMode === true}"
-  >
-    <!-- ===== Preloader Start ===== -->
-    <include src="./partials/preloader.html"></include>
-    <!-- ===== Preloader End ===== -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HellCrop - Terms of Use</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
+            color: #e5e5e5;
+            line-height: 1.75;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; pointer-events: none; z-index: 0;
+        }
+        .bubble {
+            position: absolute; border-radius: 50%; opacity: 0.05;
+            animation: float 22s infinite ease-in-out;
+        }
+        .bubble1 { width: 520px; height: 520px; background: #2a5f2a; top: -180px; right: -120px; }
+        .bubble2 { width: 380px; height: 380px; background: #4a4a4a; bottom: -120px; left: -160px; animation-delay: -10s; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(60px); } }
 
-    <!-- ===== Page Wrapper Start ===== -->
-    <div class="flex h-screen overflow-hidden">
-      <!-- ===== Sidebar Start ===== -->
-      <include src="./partials/sidebar.html"></include>
-      <!-- ===== Sidebar End ===== -->
+        .container { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 5rem 1.5rem 7rem; }
+        .header { text-align: center; margin-bottom: 4rem; }
+        .logo {
+            font-size: 2.5rem; font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #2a5f2a 50%, #fff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .title { font-size: 2.3rem; font-weight: 700; margin: 1.2rem 0 0.6rem; }
+        .updated { color: #888; font-size: 0.95rem; }
 
-      <!-- ===== Content Area Start ===== -->
-      <div
-        class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden"
-      >
-        <!-- Small Device Overlay Start -->
-        <include src="./partials/overlay.html" />
-        <!-- Small Device Overlay End -->
+        .content {
+            background: rgba(25,25,25,0.96); border: 1px solid rgba(42,95,42,0.35);
+            border-radius: 18px; padding: 3.2rem; box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+        }
+        h2 { color: #3d7f3d; margin: 2.8rem 0 1.2rem; font-size: 1.55rem; }
+        p, li { margin-bottom: 1.15rem; color: #ddd; }
+        ul { padding-left: 1.9rem; }
+        a { color: #3d7f3d; text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        <!-- ===== Header Start ===== -->
-        <include src="./partials/header.html" />
-        <!-- ===== Header End ===== -->
+        .footer { 
+            text-align: center; margin-top: 5rem; color: #666; font-size: 0.82rem; 
+        }
+        .footer a { color: #888; margin: 0 12px; }
+        .footer a:hover { color: #3d7f3d; }
+    </style>
+</head>
+<body>
 
-        <!-- ===== Main Content Start ===== -->
-        <main>
-          <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
-            <!-- Breadcrumb Start -->
-            <div x-data="{ pageName: `Alerts`}">
-              <include src="./partials/breadcrumb.html" />
-            </div>
-            <!-- Breadcrumb End -->
-
-            <div class="space-y-5 sm:space-y-6">
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Success Alert
-                  </h3>
-                </div>
-                <div
-                  class="border-t border-gray-100 p-4 dark:border-gray-800 sm:p-6"
-                >
-                  <div class="space-y-6">
-                    <include src="./partials/alert/alert-success.html" />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Warning Alert
-                  </h3>
-                </div>
-                <div
-                  class="border-t border-gray-100 p-4 dark:border-gray-800 sm:p-6"
-                >
-                  <div class="space-y-6">
-                    <include src="./partials/alert/alert-warning.html" />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Error Alert
-                  </h3>
-                </div>
-                <div
-                  class="border-t border-gray-100 p-4 dark:border-gray-800 sm:p-6"
-                >
-                  <div class="space-y-6">
-                    <include src="./partials/alert/alert-error.html" />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Info Alert
-                  </h3>
-                </div>
-                <div
-                  class="border-t border-gray-100 p-4 dark:border-gray-800 sm:p-6"
-                >
-                  <div class="space-y-6">
-                    <include src="./partials/alert/alert-info.html" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-        <!-- ===== Main Content End ===== -->
-      </div>
-      <!-- ===== Content Area End ===== -->
+    <div class="bg-animation">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
     </div>
-    <!-- ===== Page Wrapper End ===== -->
-  </body>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
+            <div class="title">Terms of Use</div>
+            <div class="updated">Last Updated: April 07, 2026</div>
+        </div>
+
+        <div class="content">
+            <p>By accessing or using HellCrop, you agree to these Terms of Use. These terms apply to users in the <strong>United States</strong> and <strong>European Union</strong>.</p>
+
+            <h2>1. Acceptance of Terms</h2>
+            <p>Using our SaaS platform means you accept these terms. If you do not agree, please do not use HellCrop.</p>
+
+            <h2>2. User Accounts</h2>
+            <ul>
+                <li>You must provide accurate and complete information</li>
+                <li>You are responsible for maintaining the security of your account</li>
+                <li>You may not share your login credentials</li>
+            </ul>
+
+            <h2>3. Acceptable Use</h2>
+            <p>You agree not to misuse the platform, attempt unauthorized access, upload harmful content, or use it for illegal purposes.</p>
+
+            <h2>4. Intellectual Property</h2>
+            <p>All content, design, and technology of HellCrop is owned by us. You are granted a limited, non-exclusive license to use the service.</p>
+
+            <h2>5. Subscription & Payments (US & EU)</h2>
+            <p>Paid plans are billed according to your chosen plan. You may cancel anytime. Refunds are handled as per applicable US and EU consumer laws.</p>
+
+            <h2>6. Data Protection (GDPR for EU Users)</h2>
+            <p>For EU users, we process your data in accordance with GDPR. You have the right to access, rectify, delete, or port your data. See our <a href="policy.html">Privacy Policy</a> for details.</p>
+
+            <h2>7. Limitation of Liability</h2>
+            <p>HellCrop is provided "as is". We are not liable for any crop losses, business damages, or indirect losses arising from use of the service.</p>
+
+            <h2>8. Termination</h2>
+            <p>We reserve the right to suspend or terminate your account if you violate these terms.</p>
+
+            <h2>9. Governing Law</h2>
+            <p>For US users: Governed by the laws of the United States.<br>
+            For EU users: Governed by applicable EU member state laws.</p>
+        </div>
+
+        <div class="footer">
+            © 2026 HellCrop. All rights reserved.<br>
+            <a href="policy.html">Privacy Policy</a> • 
+            <a href="index.html">Home</a> • 
+            <a href="signin.html">Sign In</a>
+        </div>
+    </div>
+</body>
 </html>
