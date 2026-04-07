@@ -1,45 +1,73 @@
-/* Global Footer Design */
-        .footer { 
-            position: relative; 
-            width: 100%;
-            padding: 4rem 1rem 3rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HellCrop - Create Account</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
+            color: #e5e5e5; min-height: 100vh; display: flex; flex-direction: column;
         }
-        .footer-inner {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: #666;
-            font-size: 0.85rem;
-            flex-wrap: wrap;
-            justify-content: center;
+        .bg-animation { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .bubble { position: absolute; border-radius: 50%; opacity: 0.05; animation: float 20s infinite ease-in-out; }
+        .bubble1 { width: 400px; height: 400px; background: #2a5f2a; top: -100px; left: -100px; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(40px); } }
+
+        .container { position: relative; z-index: 10; flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .card {
+            background: rgba(20,20,20,0.95); border: 1px solid rgba(42,95,42,0.3);
+            border-radius: 16px; padding: 3rem; width: 100%; max-width: 450px;
+            backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .footer-inner a { 
-            color: #888; 
-            text-decoration: none; 
-            transition: color 0.3s; 
-        }
+        .logo { font-size: 2.2rem; font-weight: 900; text-align: center; margin-bottom: 2rem;
+                background: linear-gradient(135deg, #fff, #2a5f2a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: #aaa; }
+        input { width: 100%; padding: 0.9rem; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 8px; color: #fff; }
+        input:focus { border-color: #2a5f2a; outline: none; }
+        .btn { width: 100%; padding: 1rem; background: #2a5f2a; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+        .btn:hover { background: #3d7f3d; }
+        .switch { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #777; }
+        .switch a { color: #3d7f3d; text-decoration: none; font-weight: 600; }
+
+        .footer { width: 100%; padding: 3rem 1rem; display: flex; justify-content: center; align-items: center; }
+        .footer-inner { display: flex; align-items: center; gap: 15px; color: #666; font-size: 0.82rem; flex-wrap: wrap; justify-content: center; }
+        .footer-inner a { color: #888; text-decoration: none; }
         .footer-inner a:hover { color: #3d7f3d; }
-        .footer-divider { color: #333; font-weight: 300; }
-        
-        .footer-socials {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-left: 10px;
-            padding-left: 15px;
-            border-left: 1px solid #333;
-        }
-        .footer-socials svg {
-            width: 16px;
-            height: 16px;
-            fill: #666;
-            transition: all 0.3s ease;
-        }
-        .footer-socials a:hover svg {
-            fill: #e5e5e5;
-            transform: scale(1.1);
-        }
+        .footer-socials { display: flex; gap: 15px; align-items: center; margin-left: 10px; padding-left: 15px; border-left: 1px solid #333; }
+        .footer-socials svg { width: 16px; height: 16px; fill: #666; transition: 0.3s; }
+        .footer-socials a:hover svg { fill: #e5e5e5; }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"><div class="bubble bubble1"></div></div>
+    <div class="container">
+        <div class="card">
+            <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
+            <form>
+                <div class="form-group"><label>Full Name</label><input type="text" placeholder="John Doe"></div>
+                <div class="form-group"><label>Email</label><input type="email" placeholder="name@domain.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+            <div class="switch">Already have an account? <a href="signin.html">Sign In</a></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>© 2026 HellCrop. All rights reserved.</span><span>|</span>
+            <a href="index.html">Home</a><span>|</span>
+            <a href="terms.html">Terms of Use</a><span>|</span>
+            <a href="policy.html">Privacy Policy</a>
+            <div class="footer-socials">
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.584-.069 4.849c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849s.012-3.584.07-4.849c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/></svg></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
