@@ -3,184 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HellCrop - Dashboard</title>
+    <title>HellCrop | Scale Your Growth</title>
     <style>
+        :root {
+            --primary-green: #2a5f2a;
+            --glass-bg: rgba(20, 20, 20, 0.75);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            /* Triangle theme pattern overlay */
+            background-image: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)), url('theme.png');
+            background-attachment: fixed;
+            background-size: cover;
             color: #e5e5e5;
-            display: flex;
-            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Abstract Background */
-        .bg-glow {
-            position: fixed; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(42, 95, 42, 0.15) 0%, rgba(0,0,0,0) 70%);
-            top: -200px; right: -200px; z-index: -1;
+        /* Fast Moving Bubbles */
+        .bg-animation { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+        .bubble {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-green), transparent);
+            opacity: 0.35; filter: blur(45px);
+            animation: moveFast 4s infinite alternate ease-in-out;
+        }
+        .b1 { width: 450px; height: 450px; top: -5%; left: -10%; }
+        .b2 { width: 380px; height: 380px; bottom: 5%; right: -8%; animation-duration: 3s; }
+
+        @keyframes moveFast {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(160px, 110px) scale(1.25); }
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(42, 95, 42, 0.2);
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
+        /* Nav */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
+        }
+        .logo { font-size: 1.8rem; font-weight: 900; color: #fff; }
+        nav ul { display: flex; gap: 25px; list-style: none; }
+        nav a { color: #aaa; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        nav a:hover { color: #fff; text-shadow: 0 0 10px var(--primary-green); }
+
+        /* Sections */
+        section {
+            min-height: 100vh; padding: 120px 10%;
+            display: flex; flex-direction: column; justify-content: center;
+            position: relative; z-index: 10;
         }
 
-        .logo { font-size: 1.8rem; font-weight: 900; margin-bottom: 3rem; 
-                background: linear-gradient(135deg, #fff, #2a5f2a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .nav-links { list-style: none; flex: 1; }
-        .nav-item { margin-bottom: 0.5rem; }
-        .nav-link {
-            display: flex; align-items: center; padding: 12px 15px;
-            text-decoration: none; color: #888; border-radius: 10px;
-            transition: 0.3s; font-size: 0.95rem; font-weight: 500;
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(25px);
+            border: 1px solid var(--border); border-radius: 24px;
+            padding: 3.5rem; transition: 0.5s;
         }
-        .nav-link.active, .nav-link:hover {
-            background: rgba(42, 95, 42, 0.2); color: #fff;
-            box-shadow: inset 0 0 10px rgba(42, 95, 42, 0.1);
-        }
+        .glass-card:hover { border-color: var(--primary-green); box-shadow: 0 0 40px rgba(42, 95, 42, 0.25); }
 
-        /* Main Content */
-        .main-content { margin-left: 260px; flex: 1; padding: 2.5rem; }
+        h2 { font-size: 3.2rem; margin-bottom: 1.5rem; color: #fff; }
         
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
-        .welcome h1 { font-size: 1.8rem; margin-bottom: 5px; }
-        .welcome p { color: #666; font-size: 0.9rem; }
-
-        .user-profile { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); 
-                        padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.05); }
-        .avatar { width: 35px; height: 35px; border-radius: 50%; background: #2a5f2a; }
-
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(42, 95, 42, 0.2);
-            padding: 1.8rem; border-radius: 20px;
-            transition: 0.3s;
+        .btn-action {
+            display: inline-block; margin-top: 25px;
+            background: var(--primary-green); color: white;
+            padding: 12px 35px; border: none; border-radius: 8px;
+            font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s;
         }
-        .stat-card:hover { transform: translateY(-5px); border-color: #2a5f2a; }
-        .stat-label { color: #666; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-value { font-size: 1.8rem; font-weight: 800; color: #fff; }
-        .stat-trend { font-size: 0.8rem; margin-top: 8px; }
-        .trend-up { color: #3d7f3d; }
+        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 0 20px var(--primary-green); }
 
-        /* Content Sections */
-        .dashboard-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
-        .section-card {
-            background: rgba(15, 15, 15, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 2rem;
+        /* Footer */
+        footer {
+            background: rgba(5, 5, 5, 0.95); padding: 2.5rem;
+            text-align: center; font-size: 0.85rem; color: #555;
+            border-top: 1px solid var(--border);
         }
-        h3 { margin-bottom: 1.5rem; font-size: 1.1rem; color: #fff; }
-
-        /* Mini Table */
-        .activity-table { width: 100%; border-collapse: collapse; }
-        .activity-table th { text-align: left; color: #444; font-size: 0.8rem; padding-bottom: 1rem; text-transform: uppercase; }
-        .activity-table td { padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
-        .status { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
-        .status-ready { background: rgba(61, 127, 61, 0.2); color: #50c878; }
     </style>
 </head>
 <body>
-    <div class="bg-glow"></div>
 
-    <nav class="sidebar">
+    <div class="bg-animation">
+        <div class="bubble b1"></div>
+        <div class="bubble b2"></div>
+    </div>
+
+    <nav>
         <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
-        <ul class="nav-links">
-            <li class="nav-item"><a href="#" class="nav-link active">Dashboard</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Crop Management</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Analytics</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Marketplace</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Security</a></li>
+        <ul>
+            <li><a href="#features">FEATURES</a></li>
+            <li><a href="#tool">TOOL</a></li>
+            <li><a href="#info">INFO</a></li>
+            <li><a href="#contact">CONTACT</a></li>
         </ul>
-        <div class="nav-item"><a href="signin.html" class="nav-link">Logout</a></div>
     </nav>
 
-    <main class="main-content">
-        <header>
-            <div class="welcome">
-                <h1>Welcome back, Admin</h1>
-                <p>System status is stable and optimized.</p>
-            </div>
-            <div class="user-profile">
-                <div class="avatar"></div>
-                <span style="font-size: 0.9rem;">User Account</span>
-            </div>
-        </header>
+    <section id="hero">
+        <h1 style="font-size: 5.5rem; font-weight: 900; background: linear-gradient(to right, #fff, var(--primary-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">GROW WITHOUT LIMITS</h1>
+        <p>Advanced digital infrastructure for modern scale.</p>
+    </section>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Harvest</div>
-                <div class="stat-value">2,840 kg</div>
-                <div class="stat-trend trend-up">↑ 12% from last month</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Active Cycles</div>
-                <div class="stat-value">14</div>
-                <div class="stat-trend">All systems green</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Efficiency</div>
-                <div class="stat-value">94.2%</div>
-                <div class="stat-trend trend-up">↑ 3.1% optimized</div>
-            </div>
+    <section id="features">
+        <div class="glass-card">
+            <h2>Features</h2>
+            <p>High-performance nodes, secure data management, and lightning-fast deployment speeds.</p>
         </div>
+    </section>
 
-        <div class="dashboard-row">
-            <div class="section-card">
-                <h3>Recent Harvest Operations</h3>
-                <table class="activity-table">
-                    <thead>
-                        <tr>
-                            <th>Crop Type</th>
-                            <th>ID</th>
-                            <th>Status</th>
-                            <th>Yield</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Alpha Grain</td>
-                            <td>#HC-902</td>
-                            <td><span class="status status-ready">Completed</span></td>
-                            <td>420 kg</td>
-                        </tr>
-                        <tr>
-                            <td>Beta Moss</td>
-                            <td>#HC-881</td>
-                            <td><span class="status status-ready">Completed</span></td>
-                            <td>115 kg</td>
-                        </tr>
-                        <tr>
-                            <td>Synthetic Root</td>
-                            <td>#HC-750</td>
-                            <td><span class="status status-ready">Completed</span></td>
-                            <td>890 kg</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="section-card">
-                <h3>System Notifications</h3>
-                <div style="color: #666; font-size: 0.9rem;">
-                    <p style="margin-bottom: 15px;">• New security patch applied successfully.</p>
-                    <p style="margin-bottom: 15px;">• Update scheduled for 02:00 AM.</p>
-                    <p>• Data backup confirmed at midnight.</p>
-                </div>
-            </div>
+    <section id="tool">
+        <div class="glass-card">
+            <h2>Tool Panel</h2>
+            <p>Access our specialized analytical tools to optimize your growth metrics.</p>
+            <a href="tool.html" class="btn-action">OPEN TOOL INTERFACE</a>
         </div>
-    </main>
+    </section>
+
+    <section id="info">
+        <div class="glass-card">
+            <h2>Info</h2>
+            <p>HellCrop provides aesthetic and high-performance digital solutions globally.</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="glass-card">
+            <h2>Contact</h2>
+            <p>Get in touch with our technical support team for 24/7 assistance.</p>
+            <a href="mailto:support@hellcrop.com" class="btn-action">GET IN TOUCH</a>
+        </div>
+    </section>
+
+    <footer>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+            <span>© 2026 HellCrop. All rights reserved.</span> | 
+            <a href="#hero" style="color:#777; text-decoration:none;">Home</a> | 
+            <a href="#" style="color:#777; text-decoration:none;">Terms</a>
+            <div style="border-left: 1px solid #333; padding-left: 15px; margin-left: 10px; color: #fff;">𝕏 ▶ 📷</div>
+        </div>
+    </footer>
+
 </body>
 </html>
