@@ -1,119 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Avatars | TailAdmin - Tailwind CSS Admin Dashboard Template</title>
-  </head>
-  <body
-    x-data="{ page: 'avatars', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
-    x-init="
-         darkMode = JSON.parse(localStorage.getItem('darkMode'));
-         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
-    :class="{'dark bg-gray-900': darkMode === true}"
-  >
-    <!-- ===== Preloader Start ===== -->
-    <include src="./partials/preloader.html"></include>
-    <!-- ===== Preloader End ===== -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HellCrop - Privacy Policy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%);
+            color: #e5e5e5;
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; pointer-events: none; z-index: 0;
+        }
+        .bubble {
+            position: absolute; border-radius: 50%; opacity: 0.05;
+            animation: float 20s infinite ease-in-out;
+        }
+        .bubble1 { width: 500px; height: 500px; background: #2a5f2a; top: -150px; right: -100px; }
+        .bubble2 { width: 350px; height: 350px; background: #4a4a4a; bottom: -100px; left: -150px; animation-delay: -8s; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(50px); } }
 
-    <!-- ===== Page Wrapper Start ===== -->
-    <div class="flex h-screen overflow-hidden">
-      <!-- ===== Sidebar Start ===== -->
-      <include src="./partials/sidebar.html"></include>
-      <!-- ===== Sidebar End ===== -->
+        .container {
+            position: relative; z-index: 10; max-width: 900px; margin: 0 auto;
+            padding: 4rem 1.5rem 6rem;
+        }
+        .header {
+            text-align: center; margin-bottom: 4rem;
+        }
+        .logo {
+            font-size: 2.4rem; font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #2a5f2a 50%, #fff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .title {
+            font-size: 2.2rem; font-weight: 700; margin: 1.5rem 0 0.5rem;
+        }
+        .last-updated {
+            color: #888; font-size: 0.95rem;
+        }
 
-      <!-- ===== Content Area Start ===== -->
-      <div
-        class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto"
-      >
-        <!-- Small Device Overlay Start -->
-        <include src="./partials/overlay.html" />
-        <!-- Small Device Overlay End -->
+        .content {
+            background: rgba(25,25,25,0.95); border: 1px solid rgba(42,95,42,0.3);
+            border-radius: 16px; padding: 3rem; line-height: 1.8;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        h2 {
+            color: #2a5f2a; margin: 2.5rem 0 1rem; font-size: 1.5rem;
+        }
+        p, li {
+            margin-bottom: 1.1rem; color: #ddd;
+        }
+        ul {
+            padding-left: 1.8rem; margin-bottom: 1.5rem;
+        }
+        a {
+            color: #3d7f3d; text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
 
-        <!-- ===== Header Start ===== -->
-        <include src="./partials/header.html" />
-        <!-- ===== Header End ===== -->
+        .footer {
+            text-align: center; margin-top: 4rem; color: #666; font-size: 0.85rem;
+        }
+        .footer a {
+            color: #888; margin: 0 12px;
+        }
+    </style>
+</head>
+<body>
 
-        <!-- ===== Main Content Start ===== -->
-        <main>
-          <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-            <!-- Breadcrumb Start -->
-            <div x-data="{ pageName: `Avatars`}">
-              <include src="./partials/breadcrumb.html" />
-            </div>
-            <!-- Breadcrumb End -->
-
-            <div class="space-y-5 sm:space-y-6">
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Default Avatar
-                  </h3>
-                </div>
-                <div class="p-8 border-t border-gray-100 dark:border-gray-800">
-                  <include src="./partials/avatar/avatar-01.html" />
-                </div>
-              </div>
-
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Avatar with online indicator
-                  </h3>
-                </div>
-                <div class="p-8 border-t border-gray-100 dark:border-gray-800">
-                  <include src="./partials/avatar/avatar-02.html" />
-                </div>
-              </div>
-
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Avatar with Offline indicator
-                  </h3>
-                </div>
-                <div class="p-8 border-t border-gray-100 dark:border-gray-800">
-                  <include src="./partials/avatar/avatar-03.html" />
-                </div>
-              </div>
-
-              <div
-                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
-              >
-                <div class="px-6 py-5">
-                  <h3
-                    class="text-base font-medium text-gray-800 dark:text-white/90"
-                  >
-                    Avatar with busy indicator
-                  </h3>
-                </div>
-                <div class="p-8 border-t border-gray-100 dark:border-gray-800">
-                  <include src="./partials/avatar/avatar-04.html" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-        <!-- ===== Main Content End ===== -->
-      </div>
-      <!-- ===== Content Area End ===== -->
+    <div class="bg-animation">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
     </div>
-    <!-- ===== Page Wrapper End ===== -->
-  </body>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">HellCrop</div>
+            <div class="title">Privacy Policy</div>
+            <div class="last-updated">Last Updated: April 07, 2026</div>
+        </div>
+
+        <div class="content">
+            <p>HellCrop ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our SaaS platform.</p>
+
+            <h2>1. Information We Collect</h2>
+            <ul>
+                <li>Personal Information: Name, email address, phone number</li>
+                <li>Account Information: Password, profile data</li>
+                <li>Usage Data: Crop data, growth metrics, farm analytics</li>
+                <li>Device & Log Data: IP address, browser type, access times</li>
+            </ul>
+
+            <h2>2. How We Use Your Information</h2>
+            <ul>
+                <li>To provide and improve our crop growth platform</li>
+                <li>To personalize your farming experience</li>
+                <li>To send important updates and notifications</li>
+                <li>To analyze usage and enhance performance</li>
+            </ul>
+
+            <h2>3. Data Sharing</h2>
+            <p>We do not sell your personal data. We may share information with trusted service providers only when necessary to operate the service.</p>
+
+            <h2>4. Data Security</h2>
+            <p>We use industry-standard encryption and security measures to protect your data. However, no system is 100% secure.</p>
+
+            <h2>5. Your Rights</h2>
+            <p>You can access, update, or delete your account data anytime by contacting us.</p>
+
+            <h2>6. Cookies</h2>
+            <p>We use cookies to improve your experience and analyze traffic.</p>
+        </div>
+
+        <div class="footer">
+            Copyright © 2026 HellCrop. All rights reserved.<br>
+            <a href="terms.html">Terms of Use</a> • 
+            <a href="signin.html">Back to Login</a>
+        </div>
+    </div>
+</body>
 </html>
