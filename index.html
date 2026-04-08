@@ -1,150 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HellCrop | Scale Your Growth</title>
-    <style>
-        :root {
-            --primary-green: #2a5f2a;
-            --glass-bg: rgba(20, 20, 20, 0.75);
-            --border: rgba(255, 255, 255, 0.1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HellCorp • Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0a0f0a 0%, #0f1a0f 100%);
+      color: #e0f2e0;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+    .glass {
+      background: rgba(20, 40, 25, 0.75);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(80, 200, 120, 0.35);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            /* Triangle theme pattern overlay */
-            background-image: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)), url('theme.png');
-            background-attachment: fixed;
-            background-size: cover;
-            color: #e5e5e5;
-            overflow-x: hidden;
-        }
+    .neon-green {
+      text-shadow: 0 0 15px #50c878, 0 0 30px #50c878;
+    }
 
-        /* Fast Moving Bubbles */
-        .bg-animation { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-        .bubble {
-            position: absolute; border-radius: 50%;
-            background: radial-gradient(circle, var(--primary-green), transparent);
-            opacity: 0.35; filter: blur(45px);
-            animation: moveFast 4s infinite alternate ease-in-out;
-        }
-        .b1 { width: 450px; height: 450px; top: -5%; left: -10%; }
-        .b2 { width: 380px; height: 380px; bottom: 5%; right: -8%; animation-duration: 3s; }
+    .card-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      transition: all 0.3s ease;
+    }
 
-        @keyframes moveFast {
-            from { transform: translate(0, 0) scale(1); }
-            to { transform: translate(160px, 110px) scale(1.25); }
-        }
-
-        /* Nav */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 1.2rem 3rem;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); z-index: 1000;
-        }
-        .logo { font-size: 1.8rem; font-weight: 900; color: #fff; }
-        nav ul { display: flex; gap: 25px; list-style: none; }
-        nav a { color: #aaa; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
-        nav a:hover { color: #fff; text-shadow: 0 0 10px var(--primary-green); }
-
-        /* Sections */
-        section {
-            min-height: 100vh; padding: 120px 10%;
-            display: flex; flex-direction: column; justify-content: center;
-            position: relative; z-index: 10;
-        }
-
-        .glass-card {
-            background: var(--glass-bg); backdrop-filter: blur(25px);
-            border: 1px solid var(--border); border-radius: 24px;
-            padding: 3.5rem; transition: 0.5s;
-        }
-        .glass-card:hover { border-color: var(--primary-green); box-shadow: 0 0 40px rgba(42, 95, 42, 0.25); }
-
-        h2 { font-size: 3.2rem; margin-bottom: 1.5rem; color: #fff; }
-        
-        .btn-action {
-            display: inline-block; margin-top: 25px;
-            background: var(--primary-green); color: white;
-            padding: 12px 35px; border: none; border-radius: 8px;
-            font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s;
-        }
-        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 0 20px var(--primary-green); }
-
-        /* Footer */
-        footer {
-            background: rgba(5, 5, 5, 0.95); padding: 2.5rem;
-            text-align: center; font-size: 0.85rem; color: #555;
-            border-top: 1px solid var(--border);
-        }
-    </style>
+    .stat-number {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <div class="bg-animation">
-        <div class="bubble b1"></div>
-        <div class="bubble b2"></div>
+  <div class="flex h-screen">
+
+    <!-- Sidebar -->
+    <div class="w-72 glass border-r border-green-500/30 p-6 flex flex-col">
+      <div class="flex items-center gap-3 mb-12">
+        <div class="w-10 h-10 bg-green-500 rounded-2xl flex items-center justify-center text-black font-black text-3xl">H</div>
+        <h1 class="text-4xl font-black tracking-tighter neon-green">HELL<span class="text-green-400">CORP</span></h1>
+      </div>
+
+      <nav class="space-y-2 flex-1">
+        <a href="#" class="flex items-center gap-4 px-6 py-4 bg-green-500/20 text-green-400 rounded-3xl font-bold">
+          <i class="fa-solid fa-fire"></i> Dashboard
+        </a>
+        <a href="#" class="flex items-center gap-4 px-6 py-4 hover:bg-white/5 rounded-3xl transition">
+          <i class="fa-solid fa-bolt"></i> Missions
+        </a>
+        <a href="#" class="flex items-center gap-4 px-6 py-4 hover:bg-white/5 rounded-3xl transition">
+          <i class="fa-solid fa-chart-line"></i> Analytics
+        </a>
+        <a href="#" class="flex items-center gap-4 px-6 py-4 hover:bg-white/5 rounded-3xl transition">
+          <i class="fa-solid fa-users"></i> Demons
+        </a>
+        <a href="#" class="flex items-center gap-4 px-6 py-4 hover:bg-white/5 rounded-3xl transition">
+          <i class="fa-solid fa-cog"></i> Settings
+        </a>
+      </nav>
+
+      <div class="glass p-5 rounded-3xl text-center">
+        <div class="text-green-400 text-2xl mb-2">👹</div>
+        <p class="font-bold">Welcome back, Overlord</p>
+        <p class="text-xs text-green-300/70">Level 666 • 4,201 souls collected</p>
+      </div>
     </div>
 
-    <nav>
-        <div class="logo">ᎻᎬᏞᏞᏟᎡᎾᏢ</div>
-        <ul>
-            <li><a href="#features">FEATURES</a></li>
-            <li><a href="#tool">TOOL</a></li>
-            <li><a href="#info">INFO</a></li>
-            <li><a href="#contact">CONTACT</a></li>
-        </ul>
-    </nav>
+    <!-- Main Content -->
+    <div class="flex-1 p-8 overflow-auto">
 
-    <section id="hero">
-        <h1 style="font-size: 5.5rem; font-weight: 900; background: linear-gradient(to right, #fff, var(--primary-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">GROW WITHOUT LIMITS</h1>
-        <p>Advanced digital infrastructure for modern scale.</p>
-    </section>
-
-    <section id="features">
-        <div class="glass-card">
-            <h2>Features</h2>
-            <p>High-performance nodes, secure data management, and lightning-fast deployment speeds.</p>
+      <!-- Top Bar -->
+      <div class="flex justify-between items-center mb-10">
+        <div>
+          <h1 class="text-5xl font-black neon-green">DASHBOARD FROM HELL 🔥</h1>
+          <p class="text-green-300">Wednesday, April 8, 2026 • 3:05 PM</p>
         </div>
-    </section>
-
-    <section id="tool">
-        <div class="glass-card">
-            <h2>Tool Panel</h2>
-            <p>Access our specialized analytical tools to optimize your growth metrics.</p>
-            <a href="tool.html" class="btn-action">OPEN TOOL INTERFACE</a>
+        
+        <div class="flex items-center gap-6">
+          <div class="glass px-6 py-3 rounded-3xl flex items-center gap-3">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search souls..." 
+                   class="bg-transparent outline-none text-green-100 placeholder-green-400/50 w-64">
+          </div>
+          
+          <button onclick="alert('🛎️ Hell Bell rung! All teams terrified.')"
+                  class="w-12 h-12 glass flex items-center justify-center text-2xl rounded-2xl hover:scale-110 transition">
+            🔔
+          </button>
+          
+          <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-black font-bold text-2xl">👑</div>
         </div>
-    </section>
+      </div>
 
-    <section id="info">
-        <div class="glass-card">
-            <h2>Info</h2>
-            <p>HellCrop provides aesthetic and high-performance digital solutions globally.</p>
+      <!-- Stats Row -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div class="glass p-6 rounded-3xl card-hover">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-green-300 text-sm">TASKS CRUSHED</p>
+              <p id="tasks" class="text-5xl font-black stat-number">4,872</p>
+            </div>
+            <div class="text-5xl">⚡</div>
+          </div>
+          <p class="text-green-400 text-sm mt-4">↑ 47% from yesterday</p>
         </div>
-    </section>
 
-    <section id="contact">
-        <div class="glass-card">
-            <h2>Contact</h2>
-            <p>Get in touch with our technical support team for 24/7 assistance.</p>
-            <a href="mailto:support@hellcrop.com" class="btn-action">GET IN TOUCH</a>
+        <div class="glass p-6 rounded-3xl card-hover">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-green-300 text-sm">SOULS HARVESTED</p>
+              <p id="souls" class="text-5xl font-black stat-number">12,666</p>
+            </div>
+            <div class="text-5xl">🔥</div>
+          </div>
+          <p class="text-green-400 text-sm mt-4">↑ 666 today</p>
         </div>
-    </section>
 
-    <footer>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-            <span>© 2026 HellCrop. All rights reserved.</span> | 
-            <a href="#hero" style="color:#777; text-decoration:none;">Home</a> | 
-            <a href="#" style="color:#777; text-decoration:none;">Terms</a>
-            <div style="border-left: 1px solid #333; padding-left: 15px; margin-left: 10px; color: #fff;">𝕏 ▶ 📷</div>
+        <div class="glass p-6 rounded-3xl card-hover">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-green-300 text-sm">PRODUCTIVITY HELL</p>
+              <p class="text-5xl font-black text-green-400">98.7%</p>
+            </div>
+            <div class="text-5xl">🌋</div>
+          </div>
+          <p class="text-green-400 text-sm mt-4">You are unstoppable</p>
         </div>
-    </footer>
+
+        <div class="glass p-6 rounded-3xl card-hover">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-green-300 text-sm">ACTIVE DEMONS</p>
+              <p class="text-5xl font-black stat-number">842</p>
+            </div>
+            <div class="text-5xl">👹</div>
+          </div>
+          <p class="text-green-400 text-sm mt-4">All working at max pain</p>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="grid lg:grid-cols-3 gap-6">
+
+        <!-- Live Activity -->
+        <div class="lg:col-span-2 glass p-8 rounded-3xl">
+          <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold">Live Hell Activity</h2>
+            <span class="px-4 py-1 bg-green-500/20 text-green-400 text-sm rounded-full">REAL-TIME</span>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="flex gap-6 items-center">
+              <div class="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center text-2xl">📧</div>
+              <div class="flex-1">
+                <p><span class="font-bold">Email Campaign</span> just destroyed 1,234 inboxes</p>
+                <p class="text-xs text-green-400">2 minutes ago • Success Rate: 99.9%</p>
+              </div>
+              <div class="text-green-400 font-mono">+987 souls</div>
+            </div>
+            
+            <div class="flex gap-6 items-center">
+              <div class="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center text-2xl">📊</div>
+              <div class="flex-1">
+                <p><span class="font-bold">Analytics Engine</span> found 3 new weaknesses in competitors</p>
+                <p class="text-xs text-green-400">11 minutes ago</p>
+              </div>
+              <div class="text-green-400 font-mono">+2.4k data</div>
+            </div>
+            
+            <div class="flex gap-6 items-center">
+              <div class="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center text-2xl">🚀</div>
+              <div class="flex-1">
+                <p><span class="font-bold">Auto-Task</span> completed 47 missions while you were drinking coffee</p>
+                <p class="text-xs text-green-400">23 minutes ago</p>
+              </div>
+              <div class="text-green-400 font-mono">DONE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="glass p-8 rounded-3xl">
+          <h2 class="text-3xl font-bold mb-8">Quick Demonic Actions</h2>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <button onclick="alert('🔥 Launching Chaos Mode... All systems burning!')" 
+                    class="glass p-6 rounded-3xl hover:bg-green-500/10 text-center card-hover">
+              <div class="text-4xl mb-3">🌋</div>
+              <p class="font-bold">Chaos Mode</p>
+            </button>
+            
+            <button onclick="alert('👹 Summoning more demons...')" 
+                    class="glass p-6 rounded-3xl hover:bg-green-500/10 text-center card-hover">
+              <div class="text-4xl mb-3">🧿</div>
+              <p class="font-bold">Summon Team</p>
+            </button>
+            
+            <button onclick="alert('📈 Generating fresh evil reports...')" 
+                    class="glass p-6 rounded-3xl hover:bg-green-500/10 text-center card-hover">
+              <div class="text-4xl mb-3">📈</div>
+              <p class="font-bold">Evil Report</p>
+            </button>
+            
+            <button onclick="alert('⚔️ Slaying tasks instantly!')" 
+                    class="glass p-6 rounded-3xl hover:bg-green-500/10 text-center card-hover">
+              <div class="text-4xl mb-3">⚔️</div>
+              <p class="font-bold">Crush All</p>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Section -->
+      <div class="mt-8 glass p-8 rounded-3xl">
+        <h2 class="text-3xl font-bold mb-6">Hell Performance • Today</h2>
+        <div class="grid md:grid-cols-5 gap-6 text-center">
+          <div>
+            <div class="text-6xl font-black text-green-400">99.4%</div>
+            <p class="text-sm text-green-300">Uptime</p>
+          </div>
+          <div>
+            <div class="text-6xl font-black">4.2s</div>
+            <p class="text-sm text-green-300">Avg Response</p>
+          </div>
+          <div>
+            <div class="text-6xl font-black text-green-400">∞</div>
+            <p class="text-sm text-green-300">Tasks Automated</p>
+          </div>
+          <div>
+            <div class="text-6xl font-black">666</div>
+            <p class="text-sm text-green-300">Bottlenecks Destroyed</p>
+          </div>
+          <div>
+            <div class="text-6xl font-black">🔥</div>
+            <p class="text-sm text-green-300">Mood: Pure Evil</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Fake live counter
+    let tasks = 4872;
+    setInterval(() => {
+      tasks += Math.floor(Math.random() * 7) + 3;
+      document.getElementById('tasks').textContent = tasks.toLocaleString();
+    }, 1800);
+
+    let souls = 12666;
+    setInterval(() => {
+      souls += Math.floor(Math.random() * 23) + 8;
+      document.getElementById('souls').textContent = souls.toLocaleString();
+    }, 2200);
+  </script>
 
 </body>
 </html>
