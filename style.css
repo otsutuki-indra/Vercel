@@ -1,6 +1,207 @@
-body { font-family: Arial; background: #1a1a1a; color: white; text-align: center; }
-form { background: #333; padding: 20px; display: inline-block; border-radius: 10px; }
-input { margin: 10px; padding: 10px; width: 80%; }
-button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
-.navbar { background: #000; padding: 15px; margin-bottom: 20px; }
-.navbar a { color: white; margin: 0 15px; text-decoration: none; }
+/* ====================== 
+   HellCrop - Modern Dark SaaS Theme 
+   ====================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a2a1f 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Animation */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    background: rgba(0, 255, 136, 0.07);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.25);
+    animation: floatBubble 28s infinite linear;
+}
+
+.bubble1 { width: 320px; height: 320px; top: -120px; left: 8%; animation-duration: 32s; }
+.bubble2 { width: 220px; height: 220px; bottom: -80px; right: 12%; animation-duration: 25s; animation-delay: -8s; }
+.bubble3 { width: 180px; height: 180px; top: 35%; left: 65%; animation-duration: 29s; animation-delay: -18s; }
+
+@keyframes floatBubble {
+    0%   { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-1400px) rotate(360deg); }
+}
+
+/* Main Container */
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Card */
+.card {
+    background: rgba(15, 23, 18, 0.96);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 24px;
+    padding: 50px 45px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+    transition: all 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 35px 90px rgba(0, 255, 136, 0.18);
+}
+
+/* Logo */
+.logo {
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    background: linear-gradient(90deg, #00ff88, #00cc66);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #999;
+    font-size: 19px;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 26px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 9px;
+    color: #ccc;
+    font-size: 14.5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 17px 20px;
+    background: #0f1612;
+    border: 1px solid #33443a;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 16.5px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #00ff88;
+    box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.15);
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 17px;
+    background: linear-gradient(90deg, #00ff88, #00dd77);
+    color: #000;
+    font-size: 17.5px;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 255, 136, 0.45);
+}
+
+/* Error Message */
+.error {
+    color: #ff6666;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Switch to Signup */
+.switch {
+    text-align: center;
+    margin-top: 30px;
+    color: #aaa;
+    font-size: 15px;
+}
+
+.switch a {
+    color: #00ff88;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.switch a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+    position: fixed;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #666;
+    font-size: 13.5px;
+    z-index: 10;
+}
+
+.footer a {
+    color: #888;
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+.footer a:hover {
+    color: #00ff88;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card {
+        padding: 40px 25px;
+        border-radius: 20px;
+    }
+    
+    .logo {
+        font-size: 38px;
+    }
+}
